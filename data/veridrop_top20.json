@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "source": "Veridrop AI 中转站排行榜",
+    "url": "https://veridrop.org/leaderboard",
+    "last_updated": "2026-09-12",
+    "total_stations": 8817,
+    "total_reports": 75348,
+    "stations_with_data": 6964,
+    "stations_ranked": 4321
+  },
+  "top20_certified": [
+    {
+      "rank": 1,
+      "name": "酷站 AI (api.koozhan.com)",
+      "website": "https://api.koozhan.com",
+      "score": 94,
+      "tests": 356,
+      "models": ["Claude", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 2,
+      "name": "可乐AI (code28.ccwu.cc)",
+      "website": "https://code28.ccwu.cc",
+      "score": 100,
+      "tests": 4109,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 3,
+      "name": "快API (kuaiapi.net)",
+      "website": "https://kuaiapi.net",
+      "score": 100,
+      "tests": 2358,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 4,
+      "name": "API Top (api-top.com)",
+      "website": "https://api-top.com",
+      "score": 97,
+      "tests": 2296,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 5,
+      "name": "哇API (wawapi.top)",
+      "website": "https://wawapi.top",
+      "score": 100,
+      "tests": 2211,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-09",
+      "certification": "PRO"
+    },
+    {
+      "rank": 6,
+      "name": "TopAPI (topapi.io)",
+      "website": "https://topapi.io",
+      "score": 98,
+      "tests": 806,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-08",
+      "certification": "PRO"
+    },
+    {
+      "rank": 7,
+      "name": "Passion8 (passion8.cc)",
+      "website": "https://passion8.cc",
+      "score": 99,
+      "tests": 4721,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 8,
+      "name": "哇站 (wawazz.xyz)",
+      "website": "https://wawazz.xyz",
+      "score": 98,
+      "tests": 2878,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 9,
+      "name": "Codex666AI (codex666ai.com)",
+      "website": "https://codex666ai.com",
+      "score": 96,
+      "tests": 4355,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 10,
+      "name": "RouteMux (routemux.com)",
+      "website": "https://routemux.com",
+      "score": 95,
+      "tests": 663,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 11,
+      "name": "HapiOpen (hapiopen.cc)",
+      "website": "https://hapiopen.cc",
+      "score": 98,
+      "tests": 971,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 12,
+      "name": "Zivv (zivv.pro)",
+      "website": "https://zivv.pro",
+      "score": 92,
+      "tests": 46,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 13,
+      "name": "小旭API (api.xiaoxuapi.com)",
+      "website": "https://api.xiaoxuapi.com",
+      "score": 99,
+      "tests": 425,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 14,
+      "name": "MintPop (mintpop.ai)",
+      "website": "https://mintpop.ai",
+      "score": 94,
+      "tests": 68,
+      "models": ["Claude", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 15,
+      "name": "OmniaKey (omniakey.com)",
+      "website": "https://omniakey.com",
+      "score": 97,
+      "tests": 1375,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 16,
+      "name": "DragTokens (dragtokens.com)",
+      "website": "https://dragtokens.com",
+      "score": 92,
+      "tests": 1468,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 17,
+      "name": "BestAPI (bestapi.store)",
+      "website": "https://bestapi.store",
+      "score": 95,
+      "tests": 61,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 18,
+      "name": "X-LLM (x-llm.net)",
+      "website": "https://x-llm.net",
+      "score": 97,
+      "tests": 1257,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 19,
+      "name": "999555999 API (api.999555999.com)",
+      "website": "https://api.999555999.com",
+      "score": 94,
+      "tests": 266,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-10",
+      "certification": "PRO"
+    },
+    {
+      "rank": 20,
+      "name": "91Token (91token.com)",
+      "website": "https://91token.com",
+      "score": 93,
+      "tests": 78,
+      "models": ["Claude", "Gemini", "OpenAI"],
+      "last_test": "2026-09-10",
+      "certification": "PRO"
+    }
+  ],
+  "key_findings": [
+    "Veridrop 覆盖 8817 家中转站，75348 份公开检测报告",
+    "使用贝叶斯加权评分算法，不按广告排序",
+    "支持 Claude、OpenAI、Gemini 三大协议分榜",
+    "认证收录的中转站需要付费，但排名仍按检测算法计算",
+    "中位分、样本数、严重问题占比、协议级风险都会影响排名"
+  ]
+}

@@ -6,7 +6,7 @@
 
 随着 AI 大模型的普及，各种 API 中转站应运而生。本项目旨在：
 
-- 📊 收集整理各类 AI API 中转站信息
+- 📊 收集整理 **150+** 个 AI API 中转站信息
 - 🔍 提供详细的倍率、模型支持、运营时间等数据
 - 📈 按规模分类，从大到小全面覆盖
 - 🆓 包含开源中转方案
@@ -66,6 +66,32 @@ ai-api-relay-stations/
 - **价格优先**：比较各站倍率
 - **模型覆盖**：确认支持所需模型
 - **地理位置**：考虑访问速度
+
+### 🏆 Veridrop 权威排行榜
+
+本项目整合了 [Veridrop](https://veridrop.org/leaderboard) 权威排行榜数据，该排行榜：
+
+- **覆盖范围**：8817 家中转站，75348 份公开检测报告
+- **评估算法**：贝叶斯加权评分，不按广告排序
+- **检测维度**：Claude、OpenAI、Gemini 三大协议分榜
+- **数据来源**：社区公开检测数据自动聚合
+
+**Top 20 认证中转站**（PRO认证）：
+
+| 排名 | 名称 | 网址 | 综合评分 | 检测次数 | 支持模型 |
+|------|------|------|----------|----------|----------|
+| 1 | 酷站 AI | api.koozhan.com | 94 | 356 | Claude, OpenAI |
+| 2 | 可乐AI | code28.ccwu.cc | 100 | 4109 | Claude, Gemini, OpenAI |
+| 3 | 快API | kuaiapi.net | 100 | 2358 | Claude, Gemini, OpenAI |
+| 4 | API Top | api-top.com | 97 | 2296 | Claude, Gemini, OpenAI |
+| 5 | 哇API | wawapi.top | 100 | 2211 | Claude, Gemini, OpenAI |
+| 6 | TopAPI | topapi.io | 98 | 806 | Claude, Gemini, OpenAI |
+| 7 | Passion8 | passion8.cc | 99 | 4721 | Claude, Gemini, OpenAI |
+| 8 | 哇站 | wawazz.xyz | 98 | 2878 | Claude, Gemini, OpenAI |
+| 9 | Codex666AI | codex666ai.com | 96 | 4355 | Claude, Gemini, OpenAI |
+| 10 | RouteMux | routemux.com | 95 | 663 | Claude, Gemini, OpenAI |
+
+更多详情请查看 `data/veridrop_top20.json` 文件。
 
 ## 🔧 开源自建方案
 

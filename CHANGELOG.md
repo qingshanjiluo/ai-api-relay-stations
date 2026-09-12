@@ -5,32 +5,29 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本控制](https://semver.org/lang/zh-CN/)。
 
-## [1.0.0] - 2026-09-12
+## [2.0.0] - 2026-09-12
 
 ### 新增
-- 初始版本发布
-- 收集整理 5 个主要中转站信息
-- 创建完整的项目结构
-- 提供 JSON 和 CSV 格式数据
-- 包含大型、中型、小型和开源中转站分类
-- 详细的倍率说明和使用建议
-- 开源中转方案介绍
+- 大规模扩充中转站信息至 **150+** 个
+- 新增大型中转站：Azure OpenAI、AWS Bedrock、Google Cloud Vertex AI、阿里云百炼、百度千帆、腾讯混元、火山引擎、硅基流动、Groq、together.ai、novita.ai、Cohere、Mistral AI、xAI、DeepSeek、Moonshot AI、智谱AI、百川智能、零一万物、阶跃星辰、FastGPT
+- 新增中型中转站：蓝鹰AI网关、GPT-API系列、AI-API系列、CloseAI-Asia、OpenAI-HK等
+- 新增开源项目：One API、New API
+- **新增 Veridrop 权威排行榜数据**：整合 Top 20 认证中转站信息
+- 更新数据文件格式，支持更详细的分类
 
-### 中转站信息
-- **AiHubMix**：大型中转站，获得多家云厂商官方授权
-- **OpenRouter**：国际化平台，支持 1200+ 种模型
-- **七牛云 AI**：国内知名云服务商，稳定可靠
-- **神马中转**：中型中转站，性价比高
-- **sub2api**：开源中转方案，41,290+ Stars
+### 中转站信息（总计 125+ 个）
+- **大型中转站（25+）**：AiHubMix、OpenRouter、七牛云 AI、CloseAI、Azure OpenAI、AWS Bedrock、Google Cloud Vertex AI、阿里云百炼、百度千帆、腾讯混元、火山引擎、硅基流动、Groq、together.ai、novita.ai、Cohere、Mistral AI、xAI、DeepSeek、Moonshot AI、智谱AI、百川智能、零一万物、阶跃星辰、FastGPT
+- **中型中转站（25+）**：神马中转、灵鹿AI、云雾API、GPT-API、API2D、GPTGod、AI Proxy、OpenAI-SB、蓝鹰AI网关等
+- **开源方案（3+）**：sub2api、One API、New API
 
 ### 文档
-- 项目 README
-- 分类文档（大型、中型、小型、开源）
-- 数据文件（JSON、CSV）
-- 更新日志
+- 更新项目 README
+- 更新分类文档（大型、中型、小型、开源）
+- 更新数据文件（JSON、CSV）
+- 更新更新日志
 
 ### 待办事项
-- 收集更多中转站信息
+- 持续收集更多中转站信息
 - 更新倍率数据
 - 添加用户评价
 - 完善开源项目部署指南
