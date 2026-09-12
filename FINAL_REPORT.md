@@ -24,9 +24,10 @@
 | Veridrop Top 20 | 20 |
 | **Veridrop 完整数据** | **8819 家中转站** |
 | **检测报告总数** | **75353 份** |
-| 数据文件 | 8 个 |
+| 数据文件 | 11 个 |
 | 文档文件 | 8 个 |
-| HTML 检索页面 | 2 个 |
+| HTML 检索页面 | 4 个 |
+| **专项对比页面** | 2 个 |
 
 ## 🏆 主要成果
 
@@ -57,6 +58,8 @@ ai-api-relay-stations/
 ├── FINAL_REPORT.md         # 最终报告
 ├── index.html              # 交互式 HTML 检索页面（推荐）
 ├── index_simple.html       # 简化版 HTML 页面
+├── image2_stations.html    # Image2 图像生成中转站对比
+├── deepseek_stations.html  # DeepSeek 中转站对比
 ├── docs/                   # 文档目录
 │   ├── large-scale/       # 大型中转站
 │   ├── medium-scale/      # 中型中转站
@@ -70,7 +73,8 @@ ai-api-relay-stations/
 │   ├── veridrop_top20.json # Veridrop Top 20 排行榜
 │   ├── veridrop_complete.json # Veridrop 完整数据
 │   ├── veridrop_claude_top20.json # Claude 分榜
-│   └── veridrop_openai_top20.json # OpenAI 分榜
+│   ├── veridrop_openai_top20.json # OpenAI 分榜
+│   └── deepseek_proxy_list.json # DeepSeek 中转站列表
 └── scripts/               # 脚本
     ├── scrape_stations.py # 搜集脚本
     └── parse_veridrop.py  # Veridrop 数据解析脚本
@@ -129,6 +133,38 @@ ai-api-relay-stations/
 3. 使用筛选按钮筛选分类
 4. 点击"对比"按钮添加中转站到对比列表
 5. 点击主题切换按钮切换深色/浅色主题
+
+## 🎨 专项对比页面
+
+### Image2 图像生成中转站对比 (`image2_stations.html`)
+
+**主要功能**：
+- 支持 DALL-E、Midjourney、Stable Diffusion、Image2 等图像生成模型
+- 包含 15+ 个中转站对比
+- 提供模型特点对比和选择指南
+- 包含价格、稳定性、特点等详细信息
+
+**支持的模型**：
+- **DALL-E 3**：高质量图像生成，理解复杂提示词
+- **Midjourney**：艺术风格独特，细节丰富
+- **Stable Diffusion**：开源免费，可本地部署
+- **Image2**：快速生成，成本低，支持批量处理
+
+### DeepSeek 中转站对比 (`deepseek_stations.html`)
+
+**主要功能**：
+- 支持 DeepSeek-V3、DeepSeek-R1、DeepSeek-Coder 等模型
+- 包含 20+ 个中转站对比
+- 提供模型特点对比、定价信息和选择指南
+- 包含官方定价参考
+
+**支持的模型**：
+- **DeepSeek-V3**：通用大语言模型，性能强大，性价比高
+- **DeepSeek-R1**：推理增强模型，擅长复杂推理、数学、编程
+- **DeepSeek-Coder**：代码专用模型，专注于代码生成和理解
+
+**数据文件**：
+- `data/deepseek_proxy_list.json` - DeepSeek 中转站详细数据
 
 ## 📞 后续计划
 
