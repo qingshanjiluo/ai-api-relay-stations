@@ -18,6 +18,8 @@
   - OpenAI 分榜 Top 20（5178 家支持 OpenAI）
   - Gemini 分榜数据
 - **新增交互式 HTML 检索页面**：支持搜索、筛选、对比功能
+- **新增 Image2 图像生成中转站对比页面**：image2_stations.html
+- **新增 DeepSeek 中转站对比页面**：deepseek_stations.html
 - 更新数据文件格式，支持更详细的分类
 
 ### 中转站信息（总计 125+ 个）

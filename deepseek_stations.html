@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek 中转站对比</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1976d2;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #e3f2fd;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .badge-v3 {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .badge-r1 {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-coder {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-free {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-paid {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .score {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .score-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .score-low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .compare-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .compare-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .compare-card:hover {
+            border-color: #1976d2;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .compare-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .compare-card .detail {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .compare-card .detail strong {
+            color: #333;
+        }
+
+        .highlight {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #1976d2;
+        }
+
+        .pricing-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 DeepSeek 中转站对比</h1>
+            <p>全面收录支持 DeepSeek-V3、DeepSeek-R1、DeepSeek-Coder 等模型的中转站</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">收录中转站</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">主要模型</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0.5-1.5</div>
+                <div class="stat-label">倍率范围</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">免费选项</div>
+            </div>
+        </div>
+
+        <div class="highlight">
+            <strong>💡 DeepSeek 官方定价：</strong>
+            DeepSeek-V3：输入 ¥2/百万token，输出 ¥8/百万token<br>
+            DeepSeek-R1：输入 ¥4/百万token，输出 ¥16/百万token<br>
+            DeepSeek-Coder：输入 ¥1/百万token，输出 ¥2/百万token
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>中转站</th>
+                        <th>网址</th>
+                        <th>支持模型</th>
+                        <th>倍率</th>
+                        <th>稳定性</th>
+                        <th>特点</th>
+                        <th>价格</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DeepSeek 官方</strong></td>
+                        <td><a href="https://platform.deepseek.com" target="_blank">platform.deepseek.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                            <span class="badge badge-coder">DeepSeek-Coder</span>
+                        </td>
+                        <td><span class="score score-high">1.0</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>官方API，最新模型，技术支持完善</td>
+                        <td><span class="badge badge-paid">官方价</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>硅基流动 SiliconCloud</strong></td>
+                        <td><a href="https://cloud.siliconflow.cn" target="_blank">cloud.siliconflow.cn</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                            <span class="badge badge-coder">DeepSeek-Coder</span>
+                        </td>
+                        <td><span class="score score-high">0.8-1.0</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>国内知名平台，模型选择丰富，价格实惠，注册送额度</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AiHubMix</strong></td>
+                        <td><a href="https://aihubmix.com" target="_blank">aihubmix.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                            <span class="badge badge-coder">DeepSeek-Coder</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.2</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>获得多家云厂商官方授权，集群化部署，高并发支持</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenRouter</strong></td>
+                        <td><a href="https://openrouter.ai" target="_blank">openrouter.ai</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">0.8-1.0</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>国际化平台，1200+ 种模型，提供免费模型</td>
+                        <td><span class="badge badge-free">部分免费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>七牛云 AI</strong></td>
+                        <td><a href="https://ai.qiniu.com" target="_blank">ai.qiniu.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.2</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>国内知名云服务商，稳定可靠，技术支持完善</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>阿里云百炼</strong></td>
+                        <td><a href="https://bailian.console.aliyun.com" target="_blank">bailian.console.aliyun.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.2</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>阿里云官方服务，企业级支持，国内访问速度快</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>百度千帆</strong></td>
+                        <td><a href="https://qianfan.cloud.baidu.com" target="_blank">qianfan.cloud.baidu.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.2</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>百度官方服务，企业级支持，国内访问速度快</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>腾讯混元</strong></td>
+                        <td><a href="https://cloud.tencent.com/product/hunyuan" target="_blank">cloud.tencent.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.2</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>腾讯官方服务，企业级支持，国内访问速度快</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>火山引擎</strong></td>
+                        <td><a href="https://www.volcengine.com/product/ark" target="_blank">volcengine.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.2</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>字节跳动官方服务，企业级支持，国内访问速度快</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>神马中转</strong></td>
+                        <td><a href="https://shenma.ai" target="_blank">shenma.ai</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.5</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>国内中转站，访问速度快，价格相对实惠</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>灵鹿AI</strong></td>
+                        <td><a href="https://ai.linglu.com" target="_blank">ai.linglu.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.5</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>国内中转站，价格实惠，支持多种模型</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>云雾API</strong></td>
+                        <td><a href="https://yunwu.ai" target="_blank">yunwu.ai</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.5</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>国内中转站，价格实惠，支持多种模型</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>API2D</strong></td>
+                        <td><a href="https://api2d.com" target="_blank">api2d.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">1.0-1.5</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>国内知名中转站，稳定可靠</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Groq</strong></td>
+                        <td><a href="https://groq.com" target="_blank">groq.com</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                        </td>
+                        <td><span class="score score-high">0.5-1.0</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>高速推理，低延迟，价格实惠</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>together.ai</strong></td>
+                        <td><a href="https://www.together.ai" target="_blank">together.ai</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">0.5-1.0</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>专注于开源模型，价格实惠</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>novita.ai</strong></td>
+                        <td><a href="https://www.novita.ai" target="_blank">novita.ai</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-high">0.5-1.0</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>专注于图像生成，支持多种模型，价格实惠</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>FastGPT</strong></td>
+                        <td><a href="https://fastgpt.io" target="_blank">fastgpt.io</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                        </td>
+                        <td><span class="score score-medium">按量付费</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>AI Agent构建平台，支持多种模型，企业级支持</td>
+                        <td><span class="badge badge-paid">付费</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>One API</strong></td>
+                        <td><a href="https://github.com/songquanpeng/one-api" target="_blank">github.com/songquanpeng/one-api</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                            <span class="badge badge-coder">DeepSeek-Coder</span>
+                        </td>
+                        <td><span class="score score-high">自建成本</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>开源中转网关，支持27+种模型，完全掌控</td>
+                        <td><span class="badge badge-free">免费开源</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>New API</strong></td>
+                        <td><a href="https://github.com/Calcium-Ion/new-api" target="_blank">github.com/Calcium-Ion/new-api</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                            <span class="badge badge-coder">DeepSeek-Coder</span>
+                        </td>
+                        <td><span class="score score-high">自建成本</span></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>基于One API的下一代LLM网关，现代化UI设计</td>
+                        <td><span class="badge badge-free">免费开源</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>sub2api</strong></td>
+                        <td><a href="https://github.com/Wei-Shaw/sub2api" target="_blank">github.com/Wei-Shaw/sub2api</a></td>
+                        <td>
+                            <span class="badge badge-v3">DeepSeek-V3</span>
+                            <span class="badge badge-r1">DeepSeek-R1</span>
+                            <span class="badge badge-coder">DeepSeek-Coder</span>
+                        </td>
+                        <td><span class="score score-high">自建成本</span></td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>一站式开源中转服务，支持拼车共享，原生工具无缝使用</td>
+                        <td><span class="badge badge-free">免费开源</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="compare-section">
+            <h2>🔍 DeepSeek 模型特点对比</h2>
+            <div class="compare-grid">
+                <div class="compare-card">
+                    <h3>🚀 DeepSeek-V3</h3>
+                    <div class="detail"><strong>类型：</strong>通用大语言模型</div>
+                    <div class="detail"><strong>参数量：</strong>671B（MoE架构）</div>
+                    <div class="detail"><strong>特点：</strong>性能强大，推理速度快，性价比高</div>
+                    <div class="detail"><strong>适用场景：</strong>通用对话、文本生成、翻译、总结</div>
+                    <div class="detail"><strong>上下文长度：</strong>128K tokens</div>
+                    <div class="detail"><strong>价格：</strong>输入 ¥2/百万token，输出 ¥8/百万token</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>🧠 DeepSeek-R1</h3>
+                    <div class="detail"><strong>类型：</strong>推理增强模型</div>
+                    <div class="detail"><strong>参数量：</strong>671B（MoE架构）</div>
+                    <div class="detail"><strong>特点：</strong>擅长复杂推理、数学、编程、逻辑分析</div>
+                    <div class="detail"><strong>适用场景：</strong>数学问题、编程、逻辑推理、复杂分析</div>
+                    <div class="detail"><strong>上下文长度：</strong>128K tokens</div>
+                    <div class="detail"><strong>价格：</strong>输入 ¥4/百万token，输出 ¥16/百万token</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>💻 DeepSeek-Coder</h3>
+                    <div class="detail"><strong>类型：</strong>代码专用模型</div>
+                    <div class="detail"><strong>参数量：</strong>多种规格</div>
+                    <div class="detail"><strong>特点：</strong>专注于代码生成、理解、调试</div>
+                    <div class="detail"><strong>适用场景：</strong>编程、代码生成、代码理解、调试</div>
+                    <div class="detail"><strong>支持语言：</strong>Python、JavaScript、Java、C++ 等</div>
+                    <div class="detail"><strong>价格：</strong>输入 ¥1/百万token，输出 ¥2/百万token</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="compare-section">
+            <h2>📊 中转站选择指南</h2>
+            <div class="highlight">
+                <strong>💡 选择建议：</strong>如果追求最低价格和最新模型，推荐使用 DeepSeek 官方或硅基流动；如果需要企业级支持，推荐使用七牛云 AI、阿里云百炼等国内云服务商；如果预算有限，推荐使用 OpenRouter 或免费开源方案。
+            </div>
+            
+            <div class="compare-grid">
+                <div class="compare-card">
+                    <h3>🏢 企业级应用</h3>
+                    <div class="detail"><strong>推荐：</strong>七牛云 AI、阿里云百炼、百度千帆、腾讯混元</div>
+                    <div class="detail"><strong>原因：</strong>稳定性高，技术支持完善，适合生产环境</div>
+                    <div class="detail"><strong>优势：</strong>国内访问速度快，数据安全合规</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>💻 个人开发者</h3>
+                    <div class="detail"><strong>推荐：</strong>硅基流动、OpenRouter、神马中转</div>
+                    <div class="detail"><strong>原因：</strong>价格实惠，模型选择丰富，适合实验和开发</div>
+                    <div class="detail"><strong>优势：</strong>注册送额度，低成本测试</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>💰 预算有限</h3>
+                    <div class="detail"><strong>推荐：</strong>OpenRouter、Groq、免费开源方案</div>
+                    <div class="detail"><strong>原因：</strong>提供免费模型或低成本选项</div>
+                    <div class="detail"><strong>优势：</strong>可以免费使用或低成本使用</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>🛠️ 技术团队</h3>
+                    <div class="detail"><strong>推荐：</strong>One API、New API、sub2api</div>
+                    <div class="detail"><strong>原因：</strong>完全掌控，可自定义，适合技术团队</div>
+                    <div class="detail"><strong>优势：</strong>可以自建中转服务，支持多模型管理</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>🧠 复杂推理</h3>
+                    <div class="detail"><strong>推荐：</strong>DeepSeek-R1 中转站</div>
+                    <div class="detail"><strong>原因：</strong>擅长数学、编程、逻辑推理</div>
+                    <div class="detail"><strong>适用场景：</strong>数学问题、编程、复杂分析</div>
+                </div>
+                
+                <div class="compare-card">
+                    <h3>💻 编程开发</h3>
+                    <div class="detail"><strong>推荐：</strong>DeepSeek-Coder 中转站</div>
+                    <div class="detail"><strong>原因：</strong>专注于代码生成和理解</div>
+                    <div class="detail"><strong>适用场景：</strong>编程、代码生成、调试</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-table">
+            <h2>💰 DeepSeek 官方定价（参考）</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>模型</th>
+                        <th>输入价格</th>
+                        <th>输出价格</th>
+                        <th>上下文长度</th>
+                        <th>特点</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>DeepSeek-V3</strong></td>
+                        <td>¥2/百万token</td>
+                        <td>¥8/百万token</td>
+                        <td>128K tokens</td>
+                        <td>通用大语言模型，性能强大，性价比高</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DeepSeek-R1</strong></td>
+                        <td>¥4/百万token</td>
+                        <td>¥16/百万token</td>
+                        <td>128K tokens</td>
+                        <td>推理增强模型，擅长复杂推理、数学、编程</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DeepSeek-Coder</strong></td>
+                        <td>¥1/百万token</td>
+                        <td>¥2/百万token</td>
+                        <td>128K tokens</td>
+                        <td>代码专用模型，专注于代码生成和理解</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>数据来源：<a href="https://github.com/qingshanjiluo/ai-api-relay-stations" target="_blank">AI API 中转站大全</a> | 
+            <a href="https://platform.deepseek.com" target="_blank">DeepSeek 官方</a></p>
+            <p>最后更新：2026年9月12日</p>
+        </footer>
+    </div>
+</body>
+</html>

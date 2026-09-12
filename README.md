@@ -105,6 +105,8 @@ ai-api-relay-stations/
 
 **交互式查看**：
 - 打开 `index.html` 可以检索、筛选、对比中转站
+- 打开 `image2_stations.html` 查看 Image2 图像生成中转站对比
+- 打开 `deepseek_stations.html` 查看 DeepSeek 中转站对比
 
 ## 🔧 开源自建方案
 
