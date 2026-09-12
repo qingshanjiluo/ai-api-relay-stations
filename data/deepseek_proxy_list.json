@@ -1,0 +1,77 @@
+[
+  {
+    "name": "DeepSeek 官方",
+    "website": "https://platform.deepseek.com",
+    "models": "DeepSeek-V4.1-Flash, DeepSeek-V4-Pro-0813",
+    "rate": "官方定价",
+    "stability": "高",
+    "features": "官方平台，稳定性最高，支持所有 DeepSeek 模型，有缓存机制降低成本",
+    "source": "DeepSeek 官方文档",
+    "pricing": {
+      "deepseek-flash": {
+        "input_cache_hit": {"off_peak": "$0.003/1M", "peak": "$0.006/1M"},
+        "input_cache_miss": {"off_peak": "$0.15/1M", "peak": "$0.3/1M"},
+        "output": {"off_peak": "$0.6/1M", "peak": "$1.2/1M"}
+      },
+      "deepseek-v4-pro": {
+        "input_cache_hit": {"off_peak": "$0.022/1M", "peak": "$0.044/1M"},
+        "input_cache_miss": {"off_peak": "$0.66/1M", "peak": "$1.32/1M"},
+        "output": {"off_peak": "$1.98/1M", "peak": "$3.96/1M"}
+      }
+    }
+  },
+  {
+    "name": "OpenRouter",
+    "website": "https://openrouter.ai",
+    "models": "DeepSeek-V3 (deepseek/deepseek-chat), DeepSeek-R1 (deepseek/deepseek-r1), DeepSeek-Coder",
+    "rate": "1.0x - 1.5x",
+    "stability": "高",
+    "features": "国际知名平台，支持多种模型，有免费额度，价格透明，支持 OpenAI 兼容格式",
+    "source": "OpenRouter 官网"
+  },
+  {
+    "name": "AIHubMix",
+    "website": "https://aihubmix.com",
+    "models": "DeepSeek-V3, DeepSeek-R1, DeepSeek-Coder",
+    "rate": "1.2x - 1.8x",
+    "stability": "中高",
+    "features": "国内平台，支持多种模型，中文支持好，One API 接口",
+    "source": "AIHubMix 官网"
+  },
+  {
+    "name": "硅基流动 (SiliconFlow)",
+    "website": "https://cloud.siliconflow.cn",
+    "models": "DeepSeek-V3, DeepSeek-R1, DeepSeek-Coder",
+    "rate": "1.0x - 1.5x",
+    "stability": "高",
+    "features": "国内知名平台，支持多种模型，价格相对较低，提供免费额度",
+    "source": "硅基流动官网"
+  },
+  {
+    "name": "Together AI",
+    "website": "https://together.ai",
+    "models": "DeepSeek-V3, DeepSeek-R1",
+    "rate": "1.2x - 1.8x",
+    "stability": "高",
+    "features": "国际平台，支持多种模型，有免费额度，价格合理",
+    "source": "Together AI 官网"
+  },
+  {
+    "name": "Groq",
+    "website": "https://groq.com",
+    "models": "DeepSeek-V3",
+    "rate": "1.0x - 1.3x",
+    "stability": "高",
+    "features": "高速推理，低延迟，适合实时应用",
+    "source": "Groq 官网"
+  },
+  {
+    "name": "其他中转站",
+    "website": "多个",
+    "models": "DeepSeek-V3, DeepSeek-R1",
+    "rate": "1.5x - 3.0x",
+    "stability": "中低",
+    "features": "价格较高，稳定性参差不齐，需谨慎选择",
+    "source": "网络搜索"
+  }
+]
