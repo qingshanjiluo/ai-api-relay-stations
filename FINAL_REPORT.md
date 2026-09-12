@@ -22,8 +22,11 @@
 | 中型中转站 | 27+ |
 | 开源项目 | 3+ |
 | Veridrop Top 20 | 20 |
-| 数据文件 | 5 个 |
+| **Veridrop 完整数据** | **8819 家中转站** |
+| **检测报告总数** | **75353 份** |
+| 数据文件 | 8 个 |
 | 文档文件 | 8 个 |
+| HTML 检索页面 | 2 个 |
 
 ## 🏆 主要成果
 
@@ -35,10 +38,13 @@
 
 ### 2. **权威排行榜数据整合**
 
-整合了 [Veridrop](https://veridrop.org/leaderboard) 权威排行榜数据：
-- **覆盖范围**：8817 家中转站，75348 份公开检测报告
+整合了 [Veridrop](https://veridrop.org/leaderboard) 完整排行榜数据：
+- **覆盖范围**：8819 家中转站，75358 份公开检测报告
 - **评估算法**：贝叶斯加权评分，不按广告排序
-- **Top 20 认证中转站**：提供详细的评分、检测次数、支持模型等信息
+- **综合榜 Top 80**：22 条认证中转站记录
+- **Claude 分榜 Top 20**：3604 家支持 Claude 的中转站
+- **OpenAI 分榜 Top 20**：5178 家支持 OpenAI 的中转站
+- **数据文件**：veridrop_complete.json、veridrop_claude_top20.json、veridrop_openai_top20.json
 
 ### 3. **完整的项目结构**
 
@@ -49,6 +55,8 @@ ai-api-relay-stations/
 ├── LICENSE                  # MIT 许可证
 ├── .gitignore              # Git 忽略文件
 ├── FINAL_REPORT.md         # 最终报告
+├── index.html              # 交互式 HTML 检索页面（推荐）
+├── index_simple.html       # 简化版 HTML 页面
 ├── docs/                   # 文档目录
 │   ├── large-scale/       # 大型中转站
 │   ├── medium-scale/      # 中型中转站
@@ -59,9 +67,13 @@ ai-api-relay-stations/
 │   ├── stations_extended.json
 │   ├── stations_final.json
 │   ├── stations_backup.json
-│   └── veridrop_top20.json # Veridrop Top 20 排行榜
+│   ├── veridrop_top20.json # Veridrop Top 20 排行榜
+│   ├── veridrop_complete.json # Veridrop 完整数据
+│   ├── veridrop_claude_top20.json # Claude 分榜
+│   └── veridrop_openai_top20.json # OpenAI 分榜
 └── scripts/               # 脚本
-    └── scrape_stations.py # 搜集脚本
+    ├── scrape_stations.py # 搜集脚本
+    └── parse_veridrop.py  # Veridrop 数据解析脚本
 ```
 
 ## 🔍 主要发现
@@ -88,10 +100,35 @@ ai-api-relay-stations/
 ## 🚀 项目亮点
 
 1. **数据全面性**：150+ 中转站，覆盖从大型到小型、从商业到开源
-2. **权威性**：整合 Veridrop 权威排行榜数据，提供第三方验证
+2. **权威性**：整合 Veridrop 完整排行榜数据（8819 家中转站，75358 份检测报告）
 3. **实用性**：提供详细的倍率、模型支持、运营时间等信息
-4. **可扩展性**：项目结构清晰，易于更新和扩展
-5. **开源性**：MIT 许可证，欢迎社区贡献
+4. **交互性**：提供交互式 HTML 检索页面，支持搜索、筛选、对比
+5. **可扩展性**：项目结构清晰，易于更新和扩展
+6. **开源性**：MIT 许可证，欢迎社区贡献
+
+## 🖥️ 交互式 HTML 检索页面
+
+### 主要功能
+
+1. **实时搜索**：支持按名称、模型、功能、适用场景搜索
+2. **分类筛选**：大型/中型/开源中转站分类
+3. **评分筛选**：5星、4星及以上、3星及以上
+4. **多种排序**：按名称、分类、评分、倍率、Veridrop排名排序
+5. **多视图展示**：
+   - 表格视图：完整的中转站列表
+   - Veridrop 排行榜：Top 20 认证中转站卡片展示
+   - 数据统计：各分类中转站数量柱状图
+6. **对比功能**：支持选择多个中转站进行对比
+7. **主题切换**：支持深色/浅色主题切换
+8. **响应式设计**：适配桌面端和移动端
+
+### 使用方法
+
+1. 直接在浏览器中打开 `index.html` 文件
+2. 使用搜索框搜索中转站
+3. 使用筛选按钮筛选分类
+4. 点击"对比"按钮添加中转站到对比列表
+5. 点击主题切换按钮切换深色/浅色主题
 
 ## 📞 后续计划
 
