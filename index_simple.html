@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI API 中转站大全 - 检索查看对比</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-box button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+            cursor: pointer;
+        }
+
+        th:hover {
+            background: #e9ecef;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .score {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .score-high {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .score-low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+
+        .badge-claude {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .badge-openai {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-gemini {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .badge-pro {
+            background: #667eea;
+            color: white;
+        }
+
+        .compare-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .compare-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .compare-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .compare-card.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .compare-card h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .compare-card .detail {
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .compare-card .detail strong {
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 AI API 中转站大全</h1>
+            <p>全面收录 150+ 中转站信息 | 整合 Veridrop 权威排行榜数据</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">收录中转站</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8819</div>
+                <div class="stat-label">Veridrop 覆盖</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">75353</div>
+                <div class="stat-label">检测报告</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">88</div>
+                <div class="stat-label">PRO 认证</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索中转站名称、网址或模型...">
+                <button onclick="searchStations()">🔍 搜索</button>
+            </div>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterByCategory('all')">全部</button>
+                <button class="filter-btn" onclick="filterByCategory('large-scale')">大型中转站</button>
+                <button class="filter-btn" onclick="filterByCategory('medium-scale')">中型中转站</button>
+                <button class="filter-btn" onclick="filterByCategory('open-source')">开源方案</button>
+                <button class="filter-btn" onclick="filterByCategory('veridrop')">Veridrop 排行榜</button>
+                <button class="filter-btn" onclick="filterByCategory('claude')">Claude 分榜</button>
+                <button class="filter-btn" onclick="filterByCategory('openai')">OpenAI 分榜</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="stationsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">排名</th>
+                        <th onclick="sortTable(1)">名称</th>
+                        <th onclick="sortTable(2)">网址</th>
+                        <th onclick="sortTable(3)">评分</th>
+                        <th onclick="sortTable(4)">检测次数</th>
+                        <th onclick="sortTable(5)">支持模型</th>
+                        <th onclick="sortTable(6)">分类</th>
+                        <th onclick="sortTable(7)">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- 数据将通过 JavaScript 动态生成 -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="compare-section">
+            <div class="compare-header">
+                <h2>📊 中转站对比</h2>
+                <button onclick="clearCompare()" style="padding: 8px 16px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">清空对比</button>
+            </div>
+            <div class="compare-grid" id="compareGrid">
+                <p style="color: #666; text-align: center; grid-column: 1 / -1;">点击表格中的"对比"按钮添加中转站到对比列表</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>数据来源：<a href="https://veridrop.org/leaderboard" target="_blank">Veridrop 权威排行榜</a> | 
+            <a href="https://github.com/qingshanjiluo/ai-api-relay-stations" target="_blank">GitHub 仓库</a></p>
+            <p>最后更新：2026年9月12日</p>
+        </footer>
+    </div>
+
+    <script>
+        // 中转站数据
+        const stations = [
+            // Veridrop Top 20 认证中转站
+            { rank: 1, name: "酷站 AI", website: "api.koozhan.com", score: 94, tests: 356, models: ["Claude", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 2, name: "可乐AI", website: "code28.ccwu.cc", score: 100, tests: 4109, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 3, name: "快API", website: "kuaiapi.net", score: 100, tests: 2358, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 4, name: "API Top", website: "api-top.com", score: 97, tests: 2296, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 5, name: "哇API", website: "wawapi.top", score: 100, tests: 2211, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 6, name: "TopAPI", website: "topapi.io", score: 98, tests: 806, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 7, name: "Passion8", website: "passion8.cc", score: 99, tests: 4721, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 8, name: "哇站", website: "wawazz.xyz", score: 98, tests: 2878, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 9, name: "Codex666AI", website: "codex666ai.com", score: 96, tests: 4355, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            { rank: 10, name: "RouteMux", website: "routemux.com", score: 95, tests: 663, models: ["Claude", "Gemini", "OpenAI"], category: "veridrop", certification: "PRO" },
+            
+            // Claude 分榜 Top 10
+            { rank: 1, name: "酷站 AI", website: "api.koozhan.com", score: 99, tests: 235, models: ["Claude", "OpenAI"], category: "claude", certification: "PRO" },
+            { rank: 2, name: "可乐AI", website: "code28.ccwu.cc", score: 100, tests: 1717, models: ["Claude", "Gemini", "OpenAI"], category: "claude", certification: "PRO" },
+            { rank: 3, name: "快API", website: "kuaiapi.net", score: 100, tests: 1680, models: ["Claude", "Gemini", "OpenAI"], category: "claude", certification: "PRO" },
+            { rank: 4, name: "API Top", website: "api-top.com", score: 97, tests: 879, models: ["Claude", "Gemini", "OpenAI"], category: "claude", certification: "PRO" },
+            { rank: 5, name: "Passion8", website: "passion8.cc", score: 99, tests: 2419, models: ["Claude", "Gemini", "OpenAI"], category: "claude", certification: "PRO" },
+            
+            // OpenAI 分榜 Top 10
+            { rank: 1, name: "酷站 AI", website: "api.koozhan.com", score: 99, tests: 121, models: ["Claude", "OpenAI"], category: "openai", certification: "PRO" },
+            { rank: 2, name: "哇API", website: "wawapi.top", score: 100, tests: 822, models: ["Claude", "Gemini", "OpenAI"], category: "openai", certification: "PRO" },
+            { rank: 3, name: "DragTokens", website: "dragtokens.com", score: 99, tests: 1451, models: ["Claude", "Gemini", "OpenAI"], category: "openai", certification: "PRO" },
+            { rank: 4, name: "API Top", website: "api-top.com", score: 99, tests: 1262, models: ["Claude", "Gemini", "OpenAI"], category: "openai", certification: "PRO" },
+            { rank: 5, name: "RouteMux", website: "routemux.com", score: 99, tests: 389, models: ["Claude", "Gemini", "OpenAI"], category: "openai", certification: "PRO" },
+            
+            // 大型中转站
+            { rank: "-", name: "AiHubMix", website: "aihubmix.com", score: "-", tests: "-", models: ["OpenAI", "Claude", "Gemini"], category: "large-scale", certification: "" },
+            { rank: "-", name: "OpenRouter", website: "openrouter.ai", score: "-", tests: "-", models: ["1200+种模型"], category: "large-scale", certification: "" },
+            { rank: "-", name: "七牛云 AI", website: "ai.qiniu.com", score: "-", tests: "-", models: ["主流AI模型"], category: "large-scale", certification: "" },
+            { rank: "-", name: "Azure OpenAI", website: "azure.microsoft.com", score: "-", tests: "-", models: ["OpenAI系列"], category: "large-scale", certification: "" },
+            { rank: "-", name: "AWS Bedrock", website: "aws.amazon.com/bedrock", score: "-", tests: "-", models: ["Claude", "Llama"], category: "large-scale", certification: "" },
+            
+            // 中型中转站
+            { rank: "-", name: "神马中转", website: "shenma.ai", score: "-", tests: "-", models: ["OpenAI", "Claude"], category: "medium-scale", certification: "" },
+            { rank: "-", name: "灵鹿AI", website: "ai.linglu.com", score: "-", tests: "-", models: ["OpenAI", "Claude"], category: "medium-scale", certification: "" },
+            { rank: "-", name: "云雾API", website: "yunwu.ai", score: "-", tests: "-", models: ["OpenAI", "Claude"], category: "medium-scale", certification: "" },
+            { rank: "-", name: "API2D", website: "api2d.com", score: "-", tests: "-", models: ["OpenAI", "Claude"], category: "medium-scale", certification: "" },
+            { rank: "-", name: "蓝鹰AI网关", website: "ahg.codes", score: "-", tests: "-", models: ["GPT-4o", "Claude", "Gemini"], category: "medium-scale", certification: "" },
+            
+            // 开源方案
+            { rank: "-", name: "One API", website: "github.com/songquanpeng/one-api", score: "-", tests: "-", models: ["27+种模型"], category: "open-source", certification: "" },
+            { rank: "-", name: "New API", website: "github.com/Calcium-Ion/new-api", score: "-", tests: "-", models: ["多种模型"], category: "open-source", certification: "" },
+            { rank: "-", name: "sub2api", website: "github.com/Wei-Shaw/sub2api", score: "-", tests: "-", models: ["Claude", "OpenAI", "Gemini"], category: "open-source", certification: "" }
+        ];
+
+        // 对比列表
+        let compareList = [];
+
+        // 初始化表格
+        function initTable() {
+            renderTable(stations);
+        }
+
+        // 渲染表格
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(station => {
+                const row = document.createElement('tr');
+                
+                // 评分样式
+                let scoreClass = '';
+                if (station.score !== '-') {
+                    if (station.score >= 95) scoreClass = 'score-high';
+                    else if (station.score >= 90) scoreClass = 'score-medium';
+                    else scoreClass = 'score-low';
+                }
+
+                // 模型标签
+                const modelBadges = station.models.map(model => {
+                    let badgeClass = 'badge-claude';
+                    if (model.includes('OpenAI') || model.includes('GPT')) badgeClass = 'badge-openai';
+                    if (model.includes('Gemini')) badgeClass = 'badge-gemini';
+                    return `<span class="badge ${badgeClass}">${model}</span>`;
+                }).join('');
+
+                // 认证标签
+                const certBadge = station.certification ? `<span class="badge badge-pro">${station.certification}</span>` : '';
+
+                row.innerHTML = `
+                    <td>${station.rank}</td>
+                    <td><strong>${station.name}</strong> ${certBadge}</td>
+                    <td><a href="https://${station.website}" target="_blank">${station.website}</a></td>
+                    <td><span class="score ${scoreClass}">${station.score}</span></td>
+                    <td>${station.tests}</td>
+                    <td>${modelBadges}</td>
+                    <td>${getCategoryName(station.category)}</td>
+                    <td><button onclick="addToCompare('${station.name}')" style="padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">对比</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 获取分类名称
+        function getCategoryName(category) {
+            const names = {
+                'large-scale': '大型',
+                'medium-scale': '中型',
+                'open-source': '开源',
+                'veridrop': 'Veridrop',
+                'claude': 'Claude榜',
+                'openai': 'OpenAI榜'
+            };
+            return names[category] || category;
+        }
+
+        // 搜索功能
+        function searchStations() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = stations.filter(station => 
+                station.name.toLowerCase().includes(query) ||
+                station.website.toLowerCase().includes(query) ||
+                station.models.some(model => model.toLowerCase().includes(query))
+            );
+            renderTable(filtered);
+        }
+
+        // 筛选功能
+        function filterByCategory(category) {
+            // 更新按钮状态
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (category === 'all') {
+                renderTable(stations);
+            } else {
+                const filtered = stations.filter(station => station.category === category);
+                renderTable(filtered);
+            }
+        }
+
+        // 排序功能
+        function sortTable(columnIndex) {
+            // 简单的排序实现
+            alert('排序功能开发中...');
+        }
+
+        // 添加到对比
+        function addToCompare(name) {
+            if (compareList.length >= 4) {
+                alert('最多只能对比 4 个中转站');
+                return;
+            }
+            
+            const station = stations.find(s => s.name === name);
+            if (station && !compareList.find(s => s.name === name)) {
+                compareList.push(station);
+                renderCompare();
+            }
+        }
+
+        // 渲染对比
+        function renderCompare() {
+            const grid = document.getElementById('compareGrid');
+            
+            if (compareList.length === 0) {
+                grid.innerHTML = '<p style="color: #666; text-align: center; grid-column: 1 / -1;">点击表格中的"对比"按钮添加中转站到对比列表</p>';
+                return;
+            }
+
+            grid.innerHTML = compareList.map(station => `
+                <div class="compare-card">
+                    <h3>${station.name} ${station.certification ? `<span class="badge badge-pro">${station.certification}</span>` : ''}</h3>
+                    <div class="detail"><strong>网址：</strong>${station.website}</div>
+                    <div class="detail"><strong>评分：</strong>${station.score}</div>
+                    <div class="detail"><strong>检测次数：</strong>${station.tests}</div>
+                    <div class="detail"><strong>支持模型：</strong>${station.models.join(', ')}</div>
+                    <div class="detail"><strong>分类：</strong>${getCategoryName(station.category)}</div>
+                </div>
+            `).join('');
+        }
+
+        // 清空对比
+        function clearCompare() {
+            compareList = [];
+            renderCompare();
+        }
+
+        // 初始化
+        initTable();
+    </script>
+</body>
+</html>

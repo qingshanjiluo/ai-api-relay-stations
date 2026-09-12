@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "source": "Veridrop OpenAI 中转站排行榜",
+    "url": "https://veridrop.org/leaderboard/openai",
+    "last_updated": "2026-09-12",
+    "total_openai_stations": 5179,
+    "total_openai_reports": 40626,
+    "stations_with_data": 2938,
+    "data_description": "OpenAI 单协议公平排名，只看每家中转站在 OpenAI 上的表现"
+  },
+  "openai_top20": [
+    {
+      "rank": 1,
+      "domain": "api.koozhan.com",
+      "openai_median_score": 99,
+      "openai_tests": 121,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 2,
+      "domain": "wawapi.top",
+      "openai_median_score": 100,
+      "openai_tests": 822,
+      "last_test": "2026-09-09"
+    },
+    {
+      "rank": 3,
+      "domain": "dragtokens.com",
+      "openai_median_score": 99,
+      "openai_tests": 1451,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 4,
+      "domain": "api-top.com",
+      "openai_median_score": 99,
+      "openai_tests": 1262,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 5,
+      "domain": "routemux.com",
+      "openai_median_score": 99,
+      "openai_tests": 389,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 6,
+      "domain": "topapi.io",
+      "openai_median_score": 99,
+      "openai_tests": 378,
+      "last_test": "2026-09-08"
+    },
+    {
+      "rank": 7,
+      "domain": "kuaiapi.net",
+      "openai_median_score": 99,
+      "openai_tests": 641,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 8,
+      "domain": "www.weekly-day.top",
+      "openai_median_score": 99,
+      "openai_tests": 326,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 9,
+      "domain": "omniakey.com",
+      "openai_median_score": 99,
+      "openai_tests": 1321,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 10,
+      "domain": "code28.ccwu.cc",
+      "openai_median_score": 99,
+      "openai_tests": 1376,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 11,
+      "domain": "hapiopen.cc",
+      "openai_median_score": 99,
+      "openai_tests": 480,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 12,
+      "domain": "api.999555999.com",
+      "openai_median_score": 99,
+      "openai_tests": 194,
+      "last_test": "2026-09-10"
+    },
+    {
+      "rank": 13,
+      "domain": "codex666ai.com",
+      "openai_median_score": 96,
+      "openai_tests": 3925,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 14,
+      "domain": "passion8.cc",
+      "openai_median_score": 99,
+      "openai_tests": 1139,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 15,
+      "domain": "wawazz.xyz",
+      "openai_median_score": 99,
+      "openai_tests": 530,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 16,
+      "domain": "quotarouter.ai",
+      "openai_median_score": 99,
+      "openai_tests": 11,
+      "last_test": "2026-09-03"
+    },
+    {
+      "rank": 17,
+      "domain": "bestapi.store",
+      "openai_median_score": 99,
+      "openai_tests": 29,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 18,
+      "domain": "ai.akile.ai",
+      "openai_median_score": 99,
+      "openai_tests": 27,
+      "last_test": "2026-09-09"
+    },
+    {
+      "rank": 19,
+      "domain": "juxingai888.com",
+      "openai_median_score": 99,
+      "openai_tests": 13,
+      "last_test": "2026-08-19"
+    },
+    {
+      "rank": 20,
+      "domain": "api.tangguo.xin",
+      "openai_median_score": 97,
+      "openai_tests": 12,
+      "last_test": "2026-08-29"
+    }
+  ]
+}

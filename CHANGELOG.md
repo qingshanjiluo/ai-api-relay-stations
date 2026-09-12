@@ -12,7 +12,12 @@
 - 新增大型中转站：Azure OpenAI、AWS Bedrock、Google Cloud Vertex AI、阿里云百炼、百度千帆、腾讯混元、火山引擎、硅基流动、Groq、together.ai、novita.ai、Cohere、Mistral AI、xAI、DeepSeek、Moonshot AI、智谱AI、百川智能、零一万物、阶跃星辰、FastGPT
 - 新增中型中转站：蓝鹰AI网关、GPT-API系列、AI-API系列、CloseAI-Asia、OpenAI-HK等
 - 新增开源项目：One API、New API
-- **新增 Veridrop 权威排行榜数据**：整合 Top 20 认证中转站信息
+- **新增 Veridrop 完整排行榜数据**：
+  - 综合榜 Top 80 认证中转站（8819 家中转站，75353 份检测报告）
+  - Claude 分榜 Top 20（3604 家支持 Claude）
+  - OpenAI 分榜 Top 20（5178 家支持 OpenAI）
+  - Gemini 分榜数据
+- **新增交互式 HTML 检索页面**：支持搜索、筛选、对比功能
 - 更新数据文件格式，支持更详细的分类
 
 ### 中转站信息（总计 125+ 个）

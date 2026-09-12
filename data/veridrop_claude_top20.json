@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "source": "Veridrop Claude 中转站排行榜",
+    "url": "https://veridrop.org/leaderboard/claude",
+    "last_updated": "2026-09-12",
+    "total_claude_stations": 3604,
+    "total_claude_reports": 30297,
+    "stations_with_data": 2082,
+    "data_description": "Claude 单协议公平排名，只看每家中转站在 Claude 上的表现"
+  },
+  "claude_top20": [
+    {
+      "rank": 1,
+      "domain": "api.koozhan.com",
+      "claude_median_score": 99,
+      "claude_tests": 235,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 2,
+      "domain": "code28.ccwu.cc",
+      "claude_median_score": 100,
+      "claude_tests": 1717,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 3,
+      "domain": "kuaiapi.net",
+      "claude_median_score": 100,
+      "claude_tests": 1680,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 4,
+      "domain": "api-top.com",
+      "claude_median_score": 97,
+      "claude_tests": 879,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 5,
+      "domain": "passion8.cc",
+      "claude_median_score": 99,
+      "claude_tests": 2419,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 6,
+      "domain": "topapi.io",
+      "claude_median_score": 97,
+      "claude_tests": 391,
+      "last_test": "2026-09-08"
+    },
+    {
+      "rank": 7,
+      "domain": "wawapi.top",
+      "claude_median_score": 100,
+      "claude_tests": 1162,
+      "last_test": "2026-09-09"
+    },
+    {
+      "rank": 8,
+      "domain": "wawazz.xyz",
+      "claude_median_score": 100,
+      "claude_tests": 2295,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 9,
+      "domain": "codex666ai.com",
+      "claude_median_score": 99,
+      "claude_tests": 377,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 10,
+      "domain": "zivv.pro",
+      "claude_median_score": 96,
+      "claude_tests": 32,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 11,
+      "domain": "routemux.com",
+      "claude_median_score": 98,
+      "claude_tests": 253,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 12,
+      "domain": "api.xiaoxuapi.com",
+      "claude_median_score": 99,
+      "claude_tests": 157,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 13,
+      "domain": "mintpop.ai",
+      "claude_median_score": 99,
+      "claude_tests": 52,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 14,
+      "domain": "hapiopen.cc",
+      "claude_median_score": 99,
+      "claude_tests": 412,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 15,
+      "domain": "omniakey.com",
+      "claude_median_score": 97,
+      "claude_tests": 52,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 16,
+      "domain": "91token.com",
+      "claude_median_score": 93,
+      "claude_tests": 46,
+      "last_test": "2026-09-10"
+    },
+    {
+      "rank": 17,
+      "domain": "bestapi.store",
+      "claude_median_score": 99,
+      "claude_tests": 21,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 18,
+      "domain": "x-llm.net",
+      "claude_median_score": 96,
+      "claude_tests": 593,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 19,
+      "domain": "relaybases.com",
+      "claude_median_score": 95,
+      "claude_tests": 26,
+      "last_test": "2026-09-10"
+    },
+    {
+      "rank": 20,
+      "domain": "anpin.ai",
+      "claude_median_score": 91,
+      "claude_tests": 30,
+      "last_test": "2026-09-04"
+    }
+  ]
+}

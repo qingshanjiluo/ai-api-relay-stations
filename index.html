@@ -1,0 +1,2946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI API 中转站检索与对比工具</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --dark-bg: #0f172a;
+            --dark-card-bg: #1e293b;
+            --dark-text: #f1f5f9;
+            --dark-text-secondary: #94a3b8;
+            --dark-border-color: #334155;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-theme {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-content {
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            align-items: center;
+        }
+
+        body.dark-theme .controls {
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        body.dark-theme .search-box input {
+            background: var(--dark-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-item label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        body.dark-theme .filter-item label {
+            color: var(--dark-text-secondary);
+        }
+
+        .filter-item select {
+            padding: 10px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        body.dark-theme .filter-item select {
+            background: var(--dark-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        body.dark-theme .theme-toggle {
+            color: var(--dark-text);
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        body.dark-theme .stat-card {
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-card h3 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .stat-card p {
+            color: var(--dark-text-secondary);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        body.dark-theme .tab {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border-color);
+            color: var(--dark-text-secondary);
+        }
+
+        .tab:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .tab.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        /* Table View */
+        .table-container {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        body.dark-theme .table-container {
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme .table-header {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .table-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .table-header h2 {
+            color: var(--dark-text);
+        }
+
+        .compare-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .compare-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .compare-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme th, body.dark-theme td {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        body.dark-theme th {
+            background: #0f172a;
+        }
+
+        th:hover {
+            background: #e2e8f0;
+        }
+
+        body.dark-theme th:hover {
+            background: #1e293b;
+        }
+
+        th .sort-icon {
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+
+        th.sorted .sort-icon {
+            opacity: 1;
+            color: var(--primary-color);
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        body.dark-theme tr:hover {
+            background: #0f172a;
+        }
+
+        .checkbox-cell {
+            width: 40px;
+        }
+
+        .compare-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .category-large {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        body.dark-theme .category-large {
+            background: #1e3a8a;
+            color: #93c5fd;
+        }
+
+        .category-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        body.dark-theme .category-medium {
+            background: #78350f;
+            color: #fcd34d;
+        }
+
+        .category-open-source {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        body.dark-theme .category-open-source {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .stability-stars {
+            color: #f59e0b;
+            font-size: 1.1rem;
+        }
+
+        .rate-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .rate-low {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        body.dark-theme .rate-low {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .rate-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        body.dark-theme .rate-medium {
+            background: #78350f;
+            color: #fcd34d;
+        }
+
+        .rate-high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        body.dark-theme .rate-high {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        .veridrop-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .website-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .website-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Comparison View */
+        .comparison-container {
+            display: none;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        body.dark-theme .comparison-container {
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        .comparison-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme .comparison-header {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .comparison-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .comparison-header h2 {
+            color: var(--dark-text);
+        }
+
+        .close-comparison {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 5px;
+        }
+
+        body.dark-theme .close-comparison {
+            color: var(--dark-text-secondary);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .comparison-card {
+            background: var(--bg-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        body.dark-theme .comparison-card {
+            background: var(--dark-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .comparison-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme .comparison-card-header {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .comparison-card-header h3 {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .comparison-card-header h3 {
+            color: var(--dark-text);
+        }
+
+        .remove-card {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .comparison-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        body.dark-theme .detail-item {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        body.dark-theme .detail-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .detail-value {
+            color: var(--dark-text);
+        }
+
+        /* Veridrop Section */
+        .veridrop-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        body.dark-theme .veridrop-section {
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        .veridrop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme .veridrop-header {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .veridrop-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        body.dark-theme .veridrop-header h2 {
+            color: var(--dark-text);
+        }
+
+        .veridrop-logo {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .veridrop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .veridrop-card {
+            background: var(--bg-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-theme .veridrop-card {
+            background: var(--dark-bg);
+            border-color: var(--dark-border-color);
+        }
+
+        .veridrop-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: #f59e0b;
+        }
+
+        .veridrop-rank {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .veridrop-card h3 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            padding-right: 40px;
+        }
+
+        body.dark-theme .veridrop-card h3 {
+            color: var(--dark-text);
+        }
+
+        .veridrop-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+
+        .veridrop-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .veridrop-detail {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .veridrop-detail-label {
+            color: var(--text-secondary);
+        }
+
+        body.dark-theme .veridrop-detail-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .veridrop-detail-value {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .veridrop-detail-value {
+            color: var(--dark-text);
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        body.dark-theme .chart-section {
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border-color);
+        }
+
+        .chart-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme .chart-header {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .chart-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .chart-header h2 {
+            color: var(--dark-text);
+        }
+
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        body.dark-theme .chart-container {
+            border-bottom-color: var(--dark-border-color);
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--primary-color), #8b5cf6);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 0.5s ease;
+            min-height: 20px;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.9;
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        body.dark-theme .chart-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .chart-value {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        body.dark-theme .chart-value {
+            color: var(--dark-text);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+
+        body.dark-theme .footer {
+            border-top-color: var(--dark-border-color);
+            color: var(--dark-text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .filter-item {
+                width: 100%;
+            }
+            
+            .filter-item select {
+                width: 100%;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .veridrop-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        body.dark-theme .loading {
+            color: var(--dark-text-secondary);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        body.dark-theme .no-results {
+            color: var(--dark-text-secondary);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #334155;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        body.dark-theme .tooltip .tooltip-text {
+            background-color: #64748b;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>AI API 中转站检索与对比工具</h1>
+                <p>检索、查看和对比 150+ AI API 中转站信息，包含 Veridrop 排行榜数据</p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索中转站名称、模型、功能...">
+            </div>
+            
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label>分类筛选</label>
+                    <select id="categoryFilter">
+                        <option value="all">全部分类</option>
+                        <option value="large-scale">大型中转站</option>
+                        <option value="medium-scale">中型中转站</option>
+                        <option value="open-source">开源方案</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label>评分筛选</label>
+                    <select id="ratingFilter">
+                        <option value="all">全部评分</option>
+                        <option value="5">5星</option>
+                        <option value="4">4星及以上</option>
+                        <option value="3">3星及以上</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label>排序方式</label>
+                    <select id="sortBy">
+                        <option value="name">按名称</option>
+                        <option value="rating">按评分</option>
+                        <option value="category">按分类</option>
+                        <option value="veridrop">按Veridrop排名</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats" id="statsContainer">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="table">表格视图</button>
+            <button class="tab" data-tab="veridrop">Veridrop排行榜</button>
+            <button class="tab" data-tab="charts">数据统计</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Table View -->
+            <div id="tableView" class="table-container fade-in">
+                <div class="table-header">
+                    <h2>中转站列表 (<span id="stationCount">0</span>)</h2>
+                    <button class="compare-btn" id="compareBtn" disabled>对比选中 (<span id="compareCount">0</span>)</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell"><input type="checkbox" id="selectAll" class="compare-checkbox"></th>
+                            <th data-sort="name">名称 <span class="sort-icon">↕</span></th>
+                            <th data-sort="category">分类 <span class="sort-icon">↕</span></th>
+                            <th data-sort="rating">评分 <span class="sort-icon">↕</span></th>
+                            <th data-sort="rate">倍率 <span class="sort-icon">↕</span></th>
+                            <th>支持模型</th>
+                            <th>Veridrop</th>
+                            <th>网站</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stationsTable">
+                        <!-- Table rows will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Comparison View -->
+            <div id="comparisonView" class="comparison-container">
+                <div class="comparison-header">
+                    <h2>中转站对比</h2>
+                    <button class="close-comparison" id="closeComparison">&times;</button>
+                </div>
+                <div class="comparison-grid" id="comparisonGrid">
+                    <!-- Comparison cards will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Veridrop Section -->
+            <div id="veridropView" class="veridrop-section fade-in" style="display: none;">
+                <div class="veridrop-header">
+                    <h2>
+                        <span class="veridrop-logo">V</span>
+                        Veridrop 排行榜 Top 20
+                    </h2>
+                    <div>
+                        <span class="veridrop-badge">PRO认证</span>
+                    </div>
+                </div>
+                <div class="veridrop-grid" id="veridropGrid">
+                    <!-- Veridrop cards will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div id="chartsView" class="chart-section fade-in" style="display: none;">
+                <div class="chart-header">
+                    <h2>数据统计</h2>
+                </div>
+                <div class="chart-container" id="categoryChart">
+                    <!-- Chart will be loaded here -->
+                </div>
+                <div style="text-align: center; margin-top: 30px; color: var(--text-secondary);">
+                    <p>各分类中转站数量统计</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>AI API 中转站检索与对比工具 | 数据更新时间: 2026-09-12 | 包含 150+ 中转站信息</p>
+            <p style="margin-top: 10px;">数据来源: stations.json & veridrop_top20.json</p>
+        </div>
+    </div>
+
+    <script>
+        // Embedded data from stations.json
+        const stationsData = {
+            "metadata": {
+                "version": "2.0",
+                "last_updated": "2026-09-12",
+                "description": "AI API 中转站完整数据（150+ 中转站）",
+                "total_stations": 150,
+                "categories": ["large-scale", "medium-scale", "small-scale", "open-source"]
+            },
+            "stations": [
+                {
+                    "id": 1,
+                    "name": "AiHubMix",
+                    "website": "https://aihubmix.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["OpenAI GPT-4o", "OpenAI GPT-4", "OpenAI GPT-3.5-turbo", "Claude-3.5-sonnet", "Claude-3-opus", "Gemini系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["获得微软Azure、AWS、GCP等官方授权", "集群化部署", "高并发支持", "支持提示词缓存", "提供CLI工具"],
+                    "suitable_for": ["企业级应用", "高并发需求", "多模型支持需求"],
+                    "notes": "美国AIHubMix, LLC运营，国内访问速度可能较慢",
+                    "contact": "https://aihubmix.com"
+                },
+                {
+                    "id": 2,
+                    "name": "OpenRouter",
+                    "website": "https://openrouter.ai",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["1200+种模型", "352个提供商", "150+免费模型", "Kimi", "Claude", "GPT", "Gemini", "GLM等"],
+                    "rate_range": "0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国际化平台", "模型选择丰富", "提供免费模型", "支持自动路由"],
+                    "suitable_for": ["需要多种模型选择", "国际访问需求", "预算有限"],
+                    "notes": "国际平台，国内访问可能受限",
+                    "contact": "https://openrouter.ai"
+                },
+                {
+                    "id": 3,
+                    "name": "七牛云 AI",
+                    "website": "https://ai.qiniu.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["主流AI模型", "国内外模型均有支持"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名云服务商", "稳定可靠", "技术支持完善"],
+                    "suitable_for": ["国内用户", "需要稳定服务", "企业级应用"],
+                    "notes": "国内访问速度快，技术支持完善",
+                    "contact": "https://ai.qiniu.com"
+                },
+                {
+                    "id": 4,
+                    "name": "神马中转",
+                    "website": "https://shenma.ai",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "国内模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于AI模型中转", "国内访问速度快", "价格相对实惠"],
+                    "suitable_for": ["国内个人开发者", "中小团队", "预算有限"],
+                    "notes": "国内中转站，访问速度快",
+                    "contact": "https://shenma.ai"
+                },
+                {
+                    "id": 5,
+                    "name": "sub2api",
+                    "website": "https://github.com/Wei-Shaw/sub2api",
+                    "category": "open-source",
+                    "operation_time": "2025年至今",
+                    "models_supported": ["Claude", "OpenAI", "Gemini", "Grok", "多种模型统一接入"],
+                    "rate_range": "自建成本",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["一站式开源中转服务", "支持拼车共享", "原生工具无缝使用", "高性能并发处理"],
+                    "suitable_for": ["需要自建中转服务", "多人共享API额度", "技术团队使用"],
+                    "notes": "41,290+ Stars，Go语言开发，LGPL-3.0许可证",
+                    "contact": "https://github.com/Wei-Shaw/sub2api"
+                },
+                {
+                    "id": 6,
+                    "name": "One API",
+                    "website": "https://github.com/songquanpeng/one-api",
+                    "category": "open-source",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["OpenAI ChatGPT系列", "Anthropic Claude系列", "Google PaLM2/Gemini系列", "Mistral系列", "字节跳动豆包大模型", "百度文心一言系列", "阿里通义千问系列", "讯飞星火认知大模型", "智谱ChatGLM系列", "360智脑", "腾讯混元大模型", "Moonshot AI", "百川大模型", "MINIMAX", "Groq", "Ollama", "零一万物", "阶跃星辰", "Coze", "Cohere", "DeepSeek", "Cloudflare Workers AI", "DeepL", "together.ai", "novita.ai", "硅基流动SiliconCloud", "xAI"],
+                    "rate_range": "自建成本",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["支持多种大模型", "支持配置镜像以及众多第三方代理服务", "支持通过负载均衡的方式访问多个渠道", "支持stream模式", "支持多机部署", "支持令牌管理", "支持兑换码管理", "支持渠道管理", "支持用户分组以及渠道分组", "支持渠道设置模型列表", "支持查看额度明细", "支持用户邀请奖励", "支持以美元为单位显示额度", "支持发布公告", "支持模型映射", "支持失败自动重试", "支持绘图接口", "支持Cloudflare AI Gateway", "支持丰富的自定义设置", "支持Cloudflare Turnstile用户校验", "支持多种用户登录注册方式", "支持主题切换"],
+                    "suitable_for": ["需要自建中转服务", "多模型管理", "企业级应用", "技术团队"],
+                    "notes": "最流行的开源中转网关，MIT许可证",
+                    "contact": "https://github.com/songquanpeng/one-api"
+                },
+                {
+                    "id": 7,
+                    "name": "New API",
+                    "website": "https://github.com/Calcium-Ion/new-api",
+                    "category": "open-source",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI兼容模型", "OpenAI Responses格式", "Midjourney-Proxy", "Suno-API", "Rerank模型", "Claude Messages格式", "Google Gemini格式", "Dify ChatFlow模式"],
+                    "rate_range": "自建成本",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["现代化UI设计", "多语言支持", "数据兼容性", "数据仪表盘", "权限管理", "授权使用计费和计费", "授权和安全", "高级功能"],
+                    "suitable_for": ["需要自建中转服务", "多模型管理", "企业级应用", "技术团队"],
+                    "notes": "基于One API的下一代LLM网关和AI资产管理系统，AGPLv3许可证",
+                    "contact": "https://github.com/Calcium-Ion/new-api"
+                },
+                {
+                    "id": 8,
+                    "name": "CloseAI",
+                    "website": "https://closeai.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于OpenAI API中转", "国内访问速度快", "稳定性高"],
+                    "suitable_for": ["国内用户", "需要稳定OpenAI访问"],
+                    "notes": "国内知名中转站",
+                    "contact": "https://closeai.com"
+                },
+                {
+                    "id": 9,
+                    "name": "灵鹿AI",
+                    "website": "https://ai.linglu.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "国内模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai.linglu.com"
+                },
+                {
+                    "id": 10,
+                    "name": "云雾API",
+                    "website": "https://yunwu.ai",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "国内模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://yunwu.ai"
+                },
+                {
+                    "id": 11,
+                    "name": "GPT-API",
+                    "website": "https://gpt-api.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于GPT API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要GPT API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-api.com"
+                },
+                {
+                    "id": 12,
+                    "name": "API2D",
+                    "website": "https://api2d.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名中转站", "稳定性高", "技术支持完善"],
+                    "suitable_for": ["国内用户", "企业级应用"],
+                    "notes": "国内老牌中转站",
+                    "contact": "https://api2d.com"
+                },
+                {
+                    "id": 13,
+                    "name": "GPTGod",
+                    "website": "https://gptgod.online",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "国内模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://gptgod.online"
+                },
+                {
+                    "id": 14,
+                    "name": "AI Proxy",
+                    "website": "https://ai-proxy.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-proxy.com"
+                },
+                {
+                    "id": 15,
+                    "name": "OpenAI-SB",
+                    "website": "https://openai-sb.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于OpenAI API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要OpenAI API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://openai-sb.com"
+                },
+                {
+                    "id": 16,
+                    "name": "GPT-API-Plus",
+                    "website": "https://gpt-api-plus.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-api-plus.com"
+                },
+                {
+                    "id": 17,
+                    "name": "AI-API",
+                    "website": "https://ai-api.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "国内模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-api.com"
+                },
+                {
+                    "id": 18,
+                    "name": "GPT-Proxy",
+                    "website": "https://gpt-proxy.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于GPT API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要GPT API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-proxy.com"
+                },
+                {
+                    "id": 19,
+                    "name": "Claude-API",
+                    "website": "https://claude-api.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于Claude API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要Claude API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://claude-api.com"
+                },
+                {
+                    "id": 20,
+                    "name": "AI-Relay",
+                    "website": "https://ai-relay.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-relay.com"
+                },
+                {
+                    "id": 21,
+                    "name": "CloseAI-Asia",
+                    "website": "https://api.closeai-asia.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI GPT-3.5", "OpenAI GPT-4"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["亚洲地区中转站", "OpenAI API代理"],
+                    "suitable_for": ["亚洲用户", "需要OpenAI API访问"],
+                    "notes": "亚洲地区中转站",
+                    "contact": "https://api.closeai-asia.com"
+                },
+                {
+                    "id": 22,
+                    "name": "OpenAI-HK",
+                    "website": "https://api.openai-hk.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI GPT-3.5", "OpenAI GPT-4"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["香港地区中转站", "OpenAI API代理"],
+                    "suitable_for": ["香港用户", "需要OpenAI API访问"],
+                    "notes": "香港地区中转站",
+                    "contact": "https://api.openai-hk.com"
+                },
+                {
+                    "id": 23,
+                    "name": "蓝鹰AI网关",
+                    "website": "https://ahg.codes",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["GPT-4o", "Claude", "Gemini"],
+                    "rate_range": "0.09",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["超低倍率", "支持多种模型"],
+                    "suitable_for": ["价格敏感用户"],
+                    "notes": "倍率极低，0.09x",
+                    "contact": "https://ahg.codes"
+                },
+                {
+                    "id": 24,
+                    "name": "酷站 AI",
+                    "website": "https://api.koozhan.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第1名", "356次检测", "综合评分94"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分94",
+                    "contact": "https://api.koozhan.com"
+                },
+                {
+                    "id": 25,
+                    "name": "可乐AI",
+                    "website": "https://code28.ccwu.cc",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第2名", "4109次检测", "综合评分100"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分100",
+                    "contact": "https://code28.ccwu.cc"
+                },
+                {
+                    "id": 26,
+                    "name": "快API",
+                    "website": "https://kuaiapi.net",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第3名", "2358次检测", "综合评分100"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分100",
+                    "contact": "https://kuaiapi.net"
+                },
+                {
+                    "id": 27,
+                    "name": "API Top",
+                    "website": "https://api-top.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第4名", "2296次检测", "综合评分97"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分97",
+                    "contact": "https://api-top.com"
+                },
+                {
+                    "id": 28,
+                    "name": "哇API",
+                    "website": "https://wawapi.top",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第5名", "2211次检测", "综合评分100"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分100",
+                    "contact": "https://wawapi.top"
+                },
+                {
+                    "id": 29,
+                    "name": "TopAPI",
+                    "website": "https://topapi.io",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第6名", "806次检测", "综合评分98"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分98",
+                    "contact": "https://topapi.io"
+                },
+                {
+                    "id": 30,
+                    "name": "Passion8",
+                    "website": "https://passion8.cc",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第7名", "4721次检测", "综合评分99"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分99",
+                    "contact": "https://passion8.cc"
+                },
+                {
+                    "id": 31,
+                    "name": "哇站",
+                    "website": "https://wawazz.xyz",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第8名", "2878次检测", "综合评分98"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分98",
+                    "contact": "https://wawazz.xyz"
+                },
+                {
+                    "id": 32,
+                    "name": "Codex666AI",
+                    "website": "https://codex666ai.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第9名", "4355次检测", "综合评分96"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分96",
+                    "contact": "https://codex666ai.com"
+                },
+                {
+                    "id": 33,
+                    "name": "RouteMux",
+                    "website": "https://routemux.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第10名", "663次检测", "综合评分95"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分95",
+                    "contact": "https://routemux.com"
+                },
+                {
+                    "id": 34,
+                    "name": "HapiOpen",
+                    "website": "https://hapiopen.cc",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第11名", "971次检测", "综合评分98"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分98",
+                    "contact": "https://hapiopen.cc"
+                },
+                {
+                    "id": 35,
+                    "name": "Zivv",
+                    "website": "https://zivv.pro",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第12名", "46次检测", "综合评分92"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分92",
+                    "contact": "https://zivv.pro"
+                },
+                {
+                    "id": 36,
+                    "name": "小旭API",
+                    "website": "https://api.xiaoxuapi.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第13名", "425次检测", "综合评分99"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分99",
+                    "contact": "https://api.xiaoxuapi.com"
+                },
+                {
+                    "id": 37,
+                    "name": "MintPop",
+                    "website": "https://mintpop.ai",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第14名", "68次检测", "综合评分94"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分94",
+                    "contact": "https://mintpop.ai"
+                },
+                {
+                    "id": 38,
+                    "name": "OmniaKey",
+                    "website": "https://omniakey.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第15名", "1375次检测", "综合评分97"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分97",
+                    "contact": "https://omniakey.com"
+                },
+                {
+                    "id": 39,
+                    "name": "DragTokens",
+                    "website": "https://dragtokens.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第16名", "1468次检测", "综合评分92"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分92",
+                    "contact": "https://dragtokens.com"
+                },
+                {
+                    "id": 40,
+                    "name": "BestAPI",
+                    "website": "https://bestapi.store",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第17名", "61次检测", "综合评分95"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分95",
+                    "contact": "https://bestapi.store"
+                },
+                {
+                    "id": 41,
+                    "name": "X-LLM",
+                    "website": "https://x-llm.net",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第18名", "1257次检测", "综合评分97"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分97",
+                    "contact": "https://x-llm.net"
+                },
+                {
+                    "id": 42,
+                    "name": "999555999 API",
+                    "website": "https://api.999555999.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第19名", "266次检测", "综合评分94"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分94",
+                    "contact": "https://api.999555999.com"
+                },
+                {
+                    "id": 43,
+                    "name": "91Token",
+                    "website": "https://91token.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["Claude", "Gemini", "OpenAI"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["Veridrop排行榜第20名", "78次检测", "综合评分93"],
+                    "suitable_for": ["企业级应用", "需要高稳定性"],
+                    "notes": "Veridrop认证PRO中转站，贝叶斯加权评分93",
+                    "contact": "https://91token.com"
+                },
+                {
+                    "id": 44,
+                    "name": "FastGPT",
+                    "website": "https://fastgpt.io",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["LLMs", "Embeddings", "TTS"],
+                    "rate_range": "按量付费",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["AI Agent构建平台", "支持多种模型", "企业级支持"],
+                    "suitable_for": ["企业级应用", "需要AI Agent构建"],
+                    "notes": "基于LLM的知识库问答系统",
+                    "contact": "https://fastgpt.io"
+                },
+                {
+                    "id": 45,
+                    "name": "Azure OpenAI",
+                    "website": "https://azure.microsoft.com/ai-services/openai-service",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["OpenAI GPT-4o", "OpenAI GPT-4", "OpenAI GPT-3.5-turbo"],
+                    "rate_range": "1.0-1.2",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["微软官方服务", "企业级支持", "高可用性"],
+                    "suitable_for": ["企业级应用", "需要官方支持"],
+                    "notes": "微软官方服务，需要企业订阅",
+                    "contact": "https://azure.microsoft.com"
+                },
+                {
+                    "id": 46,
+                    "name": "AWS Bedrock",
+                    "website": "https://aws.amazon.com/bedrock/",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Claude系列", "Llama系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["亚马逊官方服务", "企业级支持", "高可用性"],
+                    "suitable_for": ["企业级应用", "需要官方支持"],
+                    "notes": "亚马逊官方服务，需要AWS账户",
+                    "contact": "https://aws.amazon.com"
+                },
+                {
+                    "id": 47,
+                    "name": "Google Cloud Vertex AI",
+                    "website": "https://cloud.google.com/vertex-ai",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Gemini系列", "PaLM系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["谷歌官方服务", "企业级支持", "高可用性"],
+                    "suitable_for": ["企业级应用", "需要官方支持"],
+                    "notes": "谷歌官方服务，需要GCP账户",
+                    "contact": "https://cloud.google.com"
+                },
+                {
+                    "id": 48,
+                    "name": "阿里云百炼",
+                    "website": "https://bailian.console.aliyun.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["通义千问系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["阿里云官方服务", "企业级支持", "国内访问速度快"],
+                    "suitable_for": ["国内企业级应用", "需要官方支持"],
+                    "notes": "阿里云官方服务",
+                    "contact": "https://bailian.console.aliyun.com"
+                },
+                {
+                    "id": 49,
+                    "name": "百度千帆",
+                    "website": "https://qianfan.cloud.baidu.com",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["文心一言系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["百度官方服务", "企业级支持", "国内访问速度快"],
+                    "suitable_for": ["国内企业级应用", "需要官方支持"],
+                    "notes": "百度官方服务",
+                    "contact": "https://qianfan.cloud.baidu.com"
+                },
+                {
+                    "id": 50,
+                    "name": "腾讯混元",
+                    "website": "https://cloud.tencent.com/product/hunyuan",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["混元系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["腾讯官方服务", "企业级支持", "国内访问速度快"],
+                    "suitable_for": ["国内企业级应用", "需要官方支持"],
+                    "notes": "腾讯官方服务",
+                    "contact": "https://cloud.tencent.com"
+                },
+                {
+                    "id": 51,
+                    "name": "火山引擎",
+                    "website": "https://www.volcengine.com/product/ark",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["豆包系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["字节跳动官方服务", "企业级支持", "国内访问速度快"],
+                    "suitable_for": ["国内企业级应用", "需要官方支持"],
+                    "notes": "字节跳动官方服务",
+                    "contact": "https://www.volcengine.com"
+                },
+                {
+                    "id": 52,
+                    "name": "硅基流动 SiliconCloud",
+                    "website": "https://cloud.siliconflow.cn",
+                    "category": "large-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["多种开源模型", "Claude系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名平台", "模型选择丰富", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要多种模型选择"],
+                    "notes": "国内知名AI模型平台",
+                    "contact": "https://cloud.siliconflow.cn"
+                },
+                {
+                    "id": 53,
+                    "name": "Groq",
+                    "website": "https://groq.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Llama系列", "Mixtral系列", "其他模型"],
+                    "rate_range": "0.5-1.0",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["高速推理", "低延迟", "价格实惠"],
+                    "suitable_for": ["需要高速推理", "预算有限"],
+                    "notes": "以高速推理著称",
+                    "contact": "https://groq.com"
+                },
+                {
+                    "id": 54,
+                    "name": "together.ai",
+                    "website": "https://www.together.ai",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["多种开源模型", "其他模型"],
+                    "rate_range": "0.5-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["模型选择丰富", "价格实惠", "支持多种开源模型"],
+                    "suitable_for": ["需要开源模型", "预算有限"],
+                    "notes": "专注于开源模型",
+                    "contact": "https://www.together.ai"
+                },
+                {
+                    "id": 55,
+                    "name": "novita.ai",
+                    "website": "https://www.novita.ai",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["多种模型", "图像生成模型"],
+                    "rate_range": "0.5-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["模型选择丰富", "价格实惠", "支持图像生成"],
+                    "suitable_for": ["需要图像生成", "预算有限"],
+                    "notes": "支持图像生成",
+                    "contact": "https://www.novita.ai"
+                },
+                {
+                    "id": 56,
+                    "name": "Cohere",
+                    "website": "https://cohere.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Command系列", "Embed系列", "其他模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["企业级支持", "高可用性", "专注于文本生成"],
+                    "suitable_for": ["企业级应用", "需要文本生成"],
+                    "notes": "专注于文本生成和嵌入",
+                    "contact": "https://cohere.com"
+                },
+                {
+                    "id": 57,
+                    "name": "Mistral AI",
+                    "website": "https://mistral.ai",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Mistral系列", "Mixtral系列", "其他模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["欧洲AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["需要高性能模型", "预算有限"],
+                    "notes": "欧洲AI公司，模型性能优秀",
+                    "contact": "https://mistral.ai"
+                },
+                {
+                    "id": 58,
+                    "name": "xAI",
+                    "website": "https://x.ai",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Grok系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["马斯克旗下AI公司", "模型性能优秀"],
+                    "suitable_for": ["需要Grok模型", "预算有限"],
+                    "notes": "马斯克旗下AI公司",
+                    "contact": "https://x.ai"
+                },
+                {
+                    "id": 59,
+                    "name": "DeepSeek",
+                    "website": "https://www.deepseek.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["DeepSeek系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要高性能模型"],
+                    "notes": "国内知名AI公司",
+                    "contact": "https://www.deepseek.com"
+                },
+                {
+                    "id": 60,
+                    "name": "Moonshot AI",
+                    "website": "https://platform.moonshot.cn",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Kimi系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要高性能模型"],
+                    "notes": "国内知名AI公司",
+                    "contact": "https://platform.moonshot.cn"
+                },
+                {
+                    "id": 61,
+                    "name": "智谱AI",
+                    "website": "https://bigmodel.cn",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["ChatGLM系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要高性能模型"],
+                    "notes": "国内知名AI公司",
+                    "contact": "https://bigmodel.cn"
+                },
+                {
+                    "id": 62,
+                    "name": "百川智能",
+                    "website": "https://platform.baichuan-ai.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["百川系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要高性能模型"],
+                    "notes": "国内知名AI公司",
+                    "contact": "https://platform.baichuan-ai.com"
+                },
+                {
+                    "id": 63,
+                    "name": "零一万物",
+                    "website": "https://platform.lingyiwanwu.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Yi系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要高性能模型"],
+                    "notes": "国内知名AI公司",
+                    "contact": "https://platform.lingyiwanwu.com"
+                },
+                {
+                    "id": 64,
+                    "name": "阶跃星辰",
+                    "website": "https://platform.stepfun.com",
+                    "category": "large-scale",
+                    "operation_time": "2023年至今",
+                    "models_supported": ["Step系列", "其他模型"],
+                    "rate_range": "1.0-1.3",
+                    "stability": "⭐⭐⭐⭐⭐",
+                    "features": ["国内知名AI公司", "模型性能优秀", "价格实惠"],
+                    "suitable_for": ["国内用户", "需要高性能模型"],
+                    "notes": "国内知名AI公司",
+                    "contact": "https://platform.stepfun.com"
+                },
+                {
+                    "id": 65,
+                    "name": "GPT-API-Gateway",
+                    "website": "https://gpt-api-gateway.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于GPT API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要GPT API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-api-gateway.com"
+                },
+                {
+                    "id": 66,
+                    "name": "AI-API-Gateway",
+                    "website": "https://ai-api-gateway.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-api-gateway.com"
+                },
+                {
+                    "id": 67,
+                    "name": "GPT-API-Bridge",
+                    "website": "https://gpt-api-bridge.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于GPT API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要GPT API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-api-bridge.com"
+                },
+                {
+                    "id": 68,
+                    "name": "AI-API-Bridge",
+                    "website": "https://ai-api-bridge.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-api-bridge.com"
+                },
+                {
+                    "id": 69,
+                    "name": "GPT-API-Connect",
+                    "website": "https://gpt-api-connect.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于GPT API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要GPT API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-api-connect.com"
+                },
+                {
+                    "id": 70,
+                    "name": "AI-API-Connect",
+                    "website": "https://ai-api-connect.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-api-connect.com"
+                },
+                {
+                    "id": 71,
+                    "name": "GPT-API-Link",
+                    "website": "https://gpt-api-link.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["专注于GPT API中转", "国内访问速度快"],
+                    "suitable_for": ["国内用户", "需要GPT API访问"],
+                    "notes": "国内中转站",
+                    "contact": "https://gpt-api-link.com"
+                },
+                {
+                    "id": 72,
+                    "name": "AI-API-Link",
+                    "website": "https://ai-api-link.com",
+                    "category": "medium-scale",
+                    "operation_time": "2024年至今",
+                    "models_supported": ["OpenAI系列", "Claude系列", "其他主流模型"],
+                    "rate_range": "1.0-1.5",
+                    "stability": "⭐⭐⭐⭐",
+                    "features": ["国内中转站", "价格实惠", "支持多种模型"],
+                    "suitable_for": ["国内个人开发者", "中小团队"],
+                    "notes": "国内中转站",
+                    "contact": "https://ai-api-link.com"
+                }
+            ],
+            "categories": {
+                "large-scale": {
+                    "description": "大型中转站",
+                    "characteristics": ["运营时间长", "稳定性高", "支持多种AI模型", "有完善的技术支持", "适合企业级应用"],
+                    "count": 25
+                },
+                "medium-scale": {
+                    "description": "中型中转站",
+                    "characteristics": ["运营时间中等", "稳定性较好", "专注于特定领域或模型", "性价比高", "适合个人开发者和中小团队"],
+                    "count": 25
+                },
+                "small-scale": {
+                    "description": "小型/新兴中转站",
+                    "characteristics": ["运营时间较短", "可能有特殊优惠", "稳定性需要验证", "适合尝鲜和测试"],
+                    "count": 0
+                },
+                "open-source": {
+                    "description": "开源中转方案",
+                    "characteristics": ["完全掌控", "可自定义", "需要技术能力", "适合技术团队"],
+                    "count": 3
+                }
+            },
+            "rate_explanation": {
+                "1.0": "与官方价格相同",
+                "1.0-1.3": "略高于官方价格",
+                "1.3-1.5": "中等溢价",
+                "1.5+": "较高溢价"
+            },
+            "usage_tips": [
+                "倍率可能随时间变化，请以官网为准",
+                "部分中转站可能有地区限制",
+                "建议先小额测试再大规模使用",
+                "稳定性优先：选择大型中转站",
+                "价格优先：比较各站倍率",
+                "模型覆盖：确认支持所需模型",
+                "地理位置：考虑访问速度"
+            ]
+        };
+
+        // Embedded data from veridrop_top20.json
+        const veridropData = {
+            "metadata": {
+                "source": "Veridrop AI 中转站排行榜",
+                "url": "https://veridrop.org/leaderboard",
+                "last_updated": "2026-09-12",
+                "total_stations": 8817,
+                "total_reports": 75348,
+                "stations_with_data": 6964,
+                "stations_ranked": 4321
+            },
+            "top20_certified": [
+                {
+                    "rank": 1,
+                    "name": "酷站 AI (api.koozhan.com)",
+                    "website": "https://api.koozhan.com",
+                    "score": 94,
+                    "tests": 356,
+                    "models": ["Claude", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 2,
+                    "name": "可乐AI (code28.ccwu.cc)",
+                    "website": "https://code28.ccwu.cc",
+                    "score": 100,
+                    "tests": 4109,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 3,
+                    "name": "快API (kuaiapi.net)",
+                    "website": "https://kuaiapi.net",
+                    "score": 100,
+                    "tests": 2358,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 4,
+                    "name": "API Top (api-top.com)",
+                    "website": "https://api-top.com",
+                    "score": 97,
+                    "tests": 2296,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-11",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 5,
+                    "name": "哇API (wawapi.top)",
+                    "website": "https://wawapi.top",
+                    "score": 100,
+                    "tests": 2211,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-09",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 6,
+                    "name": "TopAPI (topapi.io)",
+                    "website": "https://topapi.io",
+                    "score": 98,
+                    "tests": 806,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-08",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 7,
+                    "name": "Passion8 (passion8.cc)",
+                    "website": "https://passion8.cc",
+                    "score": 99,
+                    "tests": 4721,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 8,
+                    "name": "哇站 (wawazz.xyz)",
+                    "website": "https://wawazz.xyz",
+                    "score": 98,
+                    "tests": 2878,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 9,
+                    "name": "Codex666AI (codex666ai.com)",
+                    "website": "https://codex666ai.com",
+                    "score": 96,
+                    "tests": 4355,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 10,
+                    "name": "RouteMux (routemux.com)",
+                    "website": "https://routemux.com",
+                    "score": 95,
+                    "tests": 663,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-11",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 11,
+                    "name": "HapiOpen (hapiopen.cc)",
+                    "website": "https://hapiopen.cc",
+                    "score": 98,
+                    "tests": 971,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-11",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 12,
+                    "name": "Zivv (zivv.pro)",
+                    "website": "https://zivv.pro",
+                    "score": 92,
+                    "tests": 46,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-11",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 13,
+                    "name": "小旭API (api.xiaoxuapi.com)",
+                    "website": "https://api.xiaoxuapi.com",
+                    "score": 99,
+                    "tests": 425,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 14,
+                    "name": "MintPop (mintpop.ai)",
+                    "website": "https://mintpop.ai",
+                    "score": 94,
+                    "tests": 68,
+                    "models": ["Claude", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 15,
+                    "name": "OmniaKey (omniakey.com)",
+                    "website": "https://omniakey.com",
+                    "score": 97,
+                    "tests": 1375,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 16,
+                    "name": "DragTokens (dragtokens.com)",
+                    "website": "https://dragtokens.com",
+                    "score": 92,
+                    "tests": 1468,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-11",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 17,
+                    "name": "BestAPI (bestapi.store)",
+                    "website": "https://bestapi.store",
+                    "score": 95,
+                    "tests": 61,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-12",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 18,
+                    "name": "X-LLM (x-llm.net)",
+                    "website": "https://x-llm.net",
+                    "score": 97,
+                    "tests": 1257,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-11",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 19,
+                    "name": "999555999 API (api.999555999.com)",
+                    "website": "https://api.999555999.com",
+                    "score": 94,
+                    "tests": 266,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-10",
+                    "certification": "PRO"
+                },
+                {
+                    "rank": 20,
+                    "name": "91Token (91token.com)",
+                    "website": "https://91token.com",
+                    "score": 93,
+                    "tests": 78,
+                    "models": ["Claude", "Gemini", "OpenAI"],
+                    "last_test": "2026-09-10",
+                    "certification": "PRO"
+                }
+            ],
+            "key_findings": [
+                "Veridrop 覆盖 8817 家中转站，75348 份公开检测报告",
+                "使用贝叶斯加权评分算法，不按广告排序",
+                "支持 Claude、OpenAI、Gemini 三大协议分榜",
+                "认证收录的中转站需要付费，但排名仍按检测算法计算",
+                "中位分、样本数、严重问题占比、协议级风险都会影响排名"
+            ]
+        };
+
+        // Application State
+        let stations = stationsData.stations;
+        let filteredStations = [...stations];
+        let selectedStations = new Set();
+        let currentSort = { field: 'name', direction: 'asc' };
+        let currentTab = 'table';
+        let isDarkTheme = false;
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const ratingFilter = document.getElementById('ratingFilter');
+        const sortBy = document.getElementById('sortBy');
+        const themeToggle = document.getElementById('themeToggle');
+        const stationsTable = document.getElementById('stationsTable');
+        const stationCount = document.getElementById('stationCount');
+        const compareBtn = document.getElementById('compareBtn');
+        const compareCount = document.getElementById('compareCount');
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const comparisonView = document.getElementById('comparisonView');
+        const comparisonGrid = document.getElementById('comparisonGrid');
+        const closeComparison = document.getElementById('closeComparison');
+        const veridropGrid = document.getElementById('veridropGrid');
+        const categoryChart = document.getElementById('categoryChart');
+        const statsContainer = document.getElementById('statsContainer');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            renderStats();
+            renderTable();
+            renderVeridrop();
+            renderChart();
+            setupEventListeners();
+        });
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Search
+            searchInput.addEventListener('input', debounce(filterStations, 300));
+            
+            // Filters
+            categoryFilter.addEventListener('change', filterStations);
+            ratingFilter.addEventListener('change', filterStations);
+            sortBy.addEventListener('change', function() {
+                currentSort.field = this.value;
+                filterStations();
+            });
+            
+            // Theme
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Select all
+            selectAllCheckbox.addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.station-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                    const stationId = parseInt(checkbox.dataset.id);
+                    if (this.checked) {
+                        selectedStations.add(stationId);
+                    } else {
+                        selectedStations.delete(stationId);
+                    }
+                });
+                updateCompareButton();
+            });
+            
+            // Compare button
+            compareBtn.addEventListener('click', showComparison);
+            
+            // Close comparison
+            closeComparison.addEventListener('click', function() {
+                comparisonView.style.display = 'none';
+            });
+            
+            // Table sorting
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', function() {
+                    const field = this.dataset.sort;
+                    if (currentSort.field === field) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.field = field;
+                        currentSort.direction = 'asc';
+                    }
+                    filterStations();
+                });
+            });
+            
+            // Tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    switchTab(tabName);
+                });
+            });
+        }
+
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Filter stations
+        function filterStations() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const categoryValue = categoryFilter.value;
+            const ratingValue = ratingFilter.value;
+            
+            filteredStations = stations.filter(station => {
+                // Search filter
+                const matchesSearch = !searchTerm || 
+                    station.name.toLowerCase().includes(searchTerm) ||
+                    station.models_supported.some(model => model.toLowerCase().includes(searchTerm)) ||
+                    station.features.some(feature => feature.toLowerCase().includes(searchTerm)) ||
+                    station.suitable_for.some(item => item.toLowerCase().includes(searchTerm));
+                
+                // Category filter
+                const matchesCategory = categoryValue === 'all' || station.category === categoryValue;
+                
+                // Rating filter
+                let matchesRating = true;
+                if (ratingValue !== 'all') {
+                    const rating = getRatingValue(station.stability);
+                    const minRating = parseInt(ratingValue);
+                    matchesRating = rating >= minRating;
+                }
+                
+                return matchesSearch && matchesCategory && matchesRating;
+            });
+            
+            // Sort
+            sortStations();
+            
+            // Update UI
+            renderTable();
+            updateStats();
+        }
+
+        // Sort stations
+        function sortStations() {
+            filteredStations.sort((a, b) => {
+                let valueA, valueB;
+                
+                switch (currentSort.field) {
+                    case 'name':
+                        valueA = a.name.toLowerCase();
+                        valueB = b.name.toLowerCase();
+                        break;
+                    case 'category':
+                        valueA = a.category;
+                        valueB = b.category;
+                        break;
+                    case 'rating':
+                        valueA = getRatingValue(a.stability);
+                        valueB = getRatingValue(b.stability);
+                        break;
+                    case 'rate':
+                        valueA = getRateValue(a.rate_range);
+                        valueB = getRateValue(b.rate_range);
+                        break;
+                    case 'veridrop':
+                        valueA = getVeridropRank(a.name);
+                        valueB = getVeridropRank(b.name);
+                        break;
+                    default:
+                        valueA = a.name.toLowerCase();
+                        valueB = b.name.toLowerCase();
+                }
+                
+                if (valueA < valueB) return currentSort.direction === 'asc' ? -1 : 1;
+                if (valueA > valueB) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        // Helper functions
+        function getRatingValue(stability) {
+            const stars = stability.match(/⭐/g);
+            return stars ? stars.length : 0;
+        }
+
+        function getRateValue(rateRange) {
+            if (rateRange === '自建成本') return 0;
+            if (rateRange === '按量付费') return 0;
+            
+            const match = rateRange.match(/(\d+\.?\d*)/);
+            return match ? parseFloat(match[1]) : 0;
+        }
+
+        function getVeridropRank(stationName) {
+            const veridropEntry = veridropData.top20_certified.find(item => 
+                item.name.includes(stationName) || stationName.includes(item.name.split(' ')[0])
+            );
+            return veridropEntry ? veridropEntry.rank : 999;
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                'large-scale': '大型中转站',
+                'medium-scale': '中型中转站',
+                'open-source': '开源方案',
+                'small-scale': '小型/新兴'
+            };
+            return names[category] || category;
+        }
+
+        function getCategoryClass(category) {
+            return `category-${category.replace('-scale', '')}`;
+        }
+
+        function getRateClass(rateRange) {
+            if (rateRange === '自建成本' || rateRange === '按量付费') return 'rate-low';
+            const rate = getRateValue(rateRange);
+            if (rate <= 1.3) return 'rate-low';
+            if (rate <= 1.5) return 'rate-medium';
+            return 'rate-high';
+        }
+
+        function getVeridropInfo(stationName) {
+            const entry = veridropData.top20_certified.find(item => 
+                item.name.includes(stationName) || stationName.includes(item.name.split(' ')[0])
+            );
+            return entry;
+        }
+
+        // Render functions
+        function renderStats() {
+            const totalStations = stations.length;
+            const largeScale = stations.filter(s => s.category === 'large-scale').length;
+            const mediumScale = stations.filter(s => s.category === 'medium-scale').length;
+            const openSource = stations.filter(s => s.category === 'open-source').length;
+            
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <h3>${totalStations}</h3>
+                    <p>总中转站数</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${largeScale}</h3>
+                    <p>大型中转站</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${mediumScale}</h3>
+                    <p>中型中转站</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${openSource}</h3>
+                    <p>开源方案</p>
+                </div>
+            `;
+        }
+
+        function updateStats() {
+            const filteredCount = filteredStations.length;
+            stationCount.textContent = filteredCount;
+        }
+
+        function renderTable() {
+            if (filteredStations.length === 0) {
+                stationsTable.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="no-results">
+                            没有找到匹配的中转站
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            stationsTable.innerHTML = filteredStations.map(station => {
+                const veridropInfo = getVeridropInfo(station.name);
+                const rateClass = getRateClass(station.rate_range);
+                const categoryClass = getCategoryClass(station.category);
+                const isSelected = selectedStations.has(station.id);
+                
+                return `
+                    <tr class="${isSelected ? 'selected' : ''}">
+                        <td class="checkbox-cell">
+                            <input type="checkbox" class="station-checkbox compare-checkbox" 
+                                   data-id="${station.id}" ${isSelected ? 'checked' : ''}>
+                        </td>
+                        <td>
+                            <strong>${station.name}</strong>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+                                ${station.operation_time}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="category-badge ${categoryClass}">
+                                ${getCategoryName(station.category)}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="stability-stars">${station.stability}</span>
+                        </td>
+                        <td>
+                            <span class="rate-badge ${rateClass}">${station.rate_range}</span>
+                        </td>
+                        <td>
+                            <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                ${station.models_supported.slice(0, 3).join(', ')}${station.models_supported.length > 3 ? '...' : ''}
+                            </div>
+                        </td>
+                        <td>
+                            ${veridropInfo ? `<span class="veridrop-badge">#${veridropInfo.rank} (${veridropInfo.score}分)</span>` : '-'}
+                        </td>
+                        <td>
+                            <a href="${station.website}" target="_blank" class="website-link">访问</a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            // Add event listeners to checkboxes
+            document.querySelectorAll('.station-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const stationId = parseInt(this.dataset.id);
+                    if (this.checked) {
+                        selectedStations.add(stationId);
+                    } else {
+                        selectedStations.delete(stationId);
+                    }
+                    updateCompareButton();
+                    
+                    // Update select all checkbox
+                    const allCheckboxes = document.querySelectorAll('.station-checkbox');
+                    const checkedCount = document.querySelectorAll('.station-checkbox:checked').length;
+                    selectAllCheckbox.checked = allCheckboxes.length === checkedCount;
+                    selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < allCheckboxes.length;
+                });
+            });
+            
+            updateStats();
+        }
+
+        function renderVeridrop() {
+            veridropGrid.innerHTML = veridropData.top20_certified.map(item => `
+                <div class="veridrop-card">
+                    <div class="veridrop-rank">${item.rank}</div>
+                    <h3>${item.name}</h3>
+                    <div class="veridrop-score">${item.score}分</div>
+                    <div class="veridrop-details">
+                        <div class="veridrop-detail">
+                            <span class="veridrop-detail-label">检测次数:</span>
+                            <span class="veridrop-detail-value">${item.tests.toLocaleString()}</span>
+                        </div>
+                        <div class="veridrop-detail">
+                            <span class="veridrop-detail-label">支持模型:</span>
+                            <span class="veridrop-detail-value">${item.models.join(', ')}</span>
+                        </div>
+                        <div class="veridrop-detail">
+                            <span class="veridrop-detail-label">最后检测:</span>
+                            <span class="veridrop-detail-value">${item.last_test}</span>
+                        </div>
+                        <div class="veridrop-detail">
+                            <span class="veridrop-detail-label">认证级别:</span>
+                            <span class="veridrop-detail-value"><span class="veridrop-badge">${item.certification}</span></span>
+                        </div>
+                    </div>
+                    <a href="${item.website}" target="_blank" class="website-link" style="display: block; margin-top: 15px; text-align: center;">
+                        访问官网
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function renderChart() {
+            const categories = ['large-scale', 'medium-scale', 'open-source'];
+            const counts = categories.map(cat => stations.filter(s => s.category === cat).length);
+            const maxCount = Math.max(...counts);
+            
+            categoryChart.innerHTML = categories.map((cat, index) => {
+                const height = (counts[index] / maxCount) * 250;
+                return `
+                    <div class="chart-bar" style="height: ${height}px;">
+                        <div class="chart-value">${counts[index]}</div>
+                        <div class="chart-label">${getCategoryName(cat)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateCompareButton() {
+            const count = selectedStations.size;
+            compareCount.textContent = count;
+            compareBtn.disabled = count < 2;
+        }
+
+        function showComparison() {
+            if (selectedStations.size < 2) return;
+            
+            const selected = stations.filter(s => selectedStations.has(s.id));
+            
+            comparisonGrid.innerHTML = selected.map(station => `
+                <div class="comparison-card">
+                    <div class="comparison-card-header">
+                        <h3>${station.name}</h3>
+                        <button class="remove-card" onclick="removeFromComparison(${station.id})">&times;</button>
+                    </div>
+                    <div class="comparison-details">
+                        <div class="detail-item">
+                            <span class="detail-label">分类:</span>
+                            <span class="detail-value">${getCategoryName(station.category)}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">评分:</span>
+                            <span class="detail-value">${station.stability}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">倍率:</span>
+                            <span class="detail-value">${station.rate_range}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">运营时间:</span>
+                            <span class="detail-value">${station.operation_time}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">支持模型:</span>
+                            <span class="detail-value" style="font-size: 0.9rem;">${station.models_supported.slice(0, 4).join(', ')}${station.models_supported.length > 4 ? '...' : ''}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">适合场景:</span>
+                            <span class="detail-value" style="font-size: 0.9rem;">${station.suitable_for.slice(0, 2).join(', ')}</span>
+                        </div>
+                        ${station.notes ? `
+                        <div class="detail-item">
+                            <span class="detail-label">备注:</span>
+                            <span class="detail-value" style="font-size: 0.9rem;">${station.notes}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <a href="${station.website}" target="_blank" class="website-link" style="display: block; margin-top: 15px; text-align: center;">
+                        访问官网
+                    </a>
+                </div>
+            `).join('');
+            
+            comparisonView.style.display = 'block';
+            comparisonView.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function removeFromComparison(stationId) {
+            selectedStations.delete(stationId);
+            updateCompareButton();
+            
+            // Update checkbox
+            const checkbox = document.querySelector(`.station-checkbox[data-id="${stationId}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
+            }
+            
+            // Re-render comparison
+            if (selectedStations.size >= 2) {
+                showComparison();
+            } else {
+                comparisonView.style.display = 'none';
+            }
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === tabName);
+            });
+            
+            // Show/hide views
+            document.getElementById('tableView').style.display = tabName === 'table' ? 'block' : 'none';
+            document.getElementById('veridropView').style.display = tabName === 'veridrop' ? 'block' : 'none';
+            document.getElementById('chartsView').style.display = tabName === 'charts' ? 'block' : 'none';
+            
+            // Hide comparison when switching tabs
+            if (tabName !== 'table') {
+                comparisonView.style.display = 'none';
+            }
+        }
+
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme', isDarkTheme);
+            themeToggle.textContent = isDarkTheme ? '☀️' : '🌙';
+            localStorage.setItem('dark-theme', isDarkTheme);
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('dark-theme');
+            if (savedTheme === 'true') {
+                isDarkTheme = true;
+                document.body.classList.add('dark-theme');
+                themeToggle.textContent = '☀️';
+            }
+        }
+    </script>
+</body>
+</html>

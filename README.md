@@ -71,10 +71,16 @@ ai-api-relay-stations/
 
 本项目整合了 [Veridrop](https://veridrop.org/leaderboard) 权威排行榜数据，该排行榜：
 
-- **覆盖范围**：8817 家中转站，75348 份公开检测报告
+- **覆盖范围**：8819 家中转站，75353 份公开检测报告
 - **评估算法**：贝叶斯加权评分，不按广告排序
 - **检测维度**：Claude、OpenAI、Gemini 三大协议分榜
 - **数据来源**：社区公开检测数据自动聚合
+- **认证收录**：88 家付费认证中转站
+
+**分榜统计**：
+- **Claude 分榜**：3604 家支持 Claude 的中转站，30297 份检测报告
+- **OpenAI 分榜**：5178 家支持 OpenAI 的中转站，40622 份检测报告
+- **Gemini 分榜**：209 家支持 Gemini 的中转站
 
 **Top 20 认证中转站**（PRO认证）：
 
@@ -91,7 +97,14 @@ ai-api-relay-stations/
 | 9 | Codex666AI | codex666ai.com | 96 | 4355 | Claude, Gemini, OpenAI |
 | 10 | RouteMux | routemux.com | 95 | 663 | Claude, Gemini, OpenAI |
 
-更多详情请查看 `data/veridrop_top20.json` 文件。
+**数据文件**：
+- `data/veridrop_top20.json` - Top 20 认证中转站
+- `data/veridrop_complete.json` - 完整排行榜数据
+- `data/veridrop_claude_top20.json` - Claude 分榜 Top 20
+- `data/veridrop_openai_top20.json` - OpenAI 分榜 Top 20
+
+**交互式查看**：
+- 打开 `index.html` 可以检索、筛选、对比中转站
 
 ## 🔧 开源自建方案
 

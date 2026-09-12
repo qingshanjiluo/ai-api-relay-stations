@@ -1,0 +1,597 @@
+{
+  "metadata": {
+    "source": "Veridrop AI 中转站排行榜",
+    "url": "https://veridrop.org/leaderboard",
+    "last_updated": "2026-09-12",
+    "total_stations": 8819,
+    "total_reports": 75358,
+    "stations_with_data": 6965,
+    "stations_ranked": 4322,
+    "data_description": "综合所有协议的有效报告，按贝叶斯加权评分排序"
+  },
+  "top80_certified": [
+    {
+      "rank": 1,
+      "domain": "api.koozhan.com",
+      "overall_score": 94,
+      "tests": 356,
+      "models": [
+        "Claude",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 2,
+      "domain": "code28.ccwu.cc",
+      "overall_score": 100,
+      "tests": 4109,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 3,
+      "domain": "kuaiapi.net",
+      "overall_score": 100,
+      "tests": 2358,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 4,
+      "domain": "api-top.com",
+      "overall_score": 97,
+      "tests": 2296,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 5,
+      "domain": "wawapi.top",
+      "overall_score": 100,
+      "tests": 2211,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-09",
+      "certification": "PRO"
+    },
+    {
+      "rank": 6,
+      "domain": "topapi.io",
+      "overall_score": 98,
+      "tests": 806,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-08",
+      "certification": "PRO"
+    },
+    {
+      "rank": 7,
+      "domain": "passion8.cc",
+      "overall_score": 99,
+      "tests": 4722,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 8,
+      "domain": "wawazz.xyz",
+      "overall_score": 98,
+      "tests": 2878,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 9,
+      "domain": "codex666ai.com",
+      "overall_score": 96,
+      "tests": 4355,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 10,
+      "domain": "routemux.com",
+      "overall_score": 95,
+      "tests": 663,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 11,
+      "domain": "hapiopen.cc",
+      "overall_score": 98,
+      "tests": 971,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 12,
+      "domain": "zivv.pro",
+      "overall_score": 92,
+      "tests": 46,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 13,
+      "domain": "api.xiaoxuapi.com",
+      "overall_score": 99,
+      "tests": 429,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 14,
+      "domain": "mintpop.ai",
+      "overall_score": 94,
+      "tests": 68,
+      "models": [
+        "Claude",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 15,
+      "domain": "omniakey.com",
+      "overall_score": 97,
+      "tests": 1375,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 16,
+      "domain": "dragtokens.com",
+      "overall_score": 92,
+      "tests": 1468,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 17,
+      "domain": "bestapi.store",
+      "overall_score": 95,
+      "tests": 61,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-12",
+      "certification": "PRO"
+    },
+    {
+      "rank": 18,
+      "domain": "x-llm.net",
+      "overall_score": 97,
+      "tests": 1257,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-11",
+      "certification": "PRO"
+    },
+    {
+      "rank": 19,
+      "domain": "api.999555999.com",
+      "overall_score": 94,
+      "tests": 266,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-10",
+      "certification": "PRO"
+    },
+    {
+      "rank": 20,
+      "domain": "91token.com",
+      "overall_score": 93,
+      "tests": 78,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-10",
+      "certification": "PRO"
+    },
+    {
+      "rank": 21,
+      "domain": "anpin.ai",
+      "overall_score": 90,
+      "tests": 67,
+      "models": [
+        "Claude",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-04",
+      "certification": "PRO"
+    },
+    {
+      "rank": 22,
+      "domain": "relaybases.com",
+      "overall_score": 88,
+      "tests": 39,
+      "models": [
+        "Claude",
+        "Gemini",
+        "OpenAI"
+      ],
+      "last_test": "2026-09-10",
+      "certification": "PRO"
+    }
+  ],
+  "claude_top20": [
+    {
+      "rank": 1,
+      "domain": "api.koozhan.com",
+      "claude_median_score": 99,
+      "claude_tests": 235,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 2,
+      "domain": "code28.ccwu.cc",
+      "claude_median_score": 100,
+      "claude_tests": 1717,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 3,
+      "domain": "kuaiapi.net",
+      "claude_median_score": 100,
+      "claude_tests": 1680,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 4,
+      "domain": "api-top.com",
+      "claude_median_score": 97,
+      "claude_tests": 879,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 5,
+      "domain": "passion8.cc",
+      "claude_median_score": 99,
+      "claude_tests": 2419,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 6,
+      "domain": "topapi.io",
+      "claude_median_score": 97,
+      "claude_tests": 391,
+      "last_test": "2026-09-08"
+    },
+    {
+      "rank": 7,
+      "domain": "wawapi.top",
+      "claude_median_score": 100,
+      "claude_tests": 1162,
+      "last_test": "2026-09-09"
+    },
+    {
+      "rank": 8,
+      "domain": "wawazz.xyz",
+      "claude_median_score": 100,
+      "claude_tests": 2295,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 9,
+      "domain": "codex666ai.com",
+      "claude_median_score": 99,
+      "claude_tests": 377,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 10,
+      "domain": "zivv.pro",
+      "claude_median_score": 96,
+      "claude_tests": 32,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 11,
+      "domain": "routemux.com",
+      "claude_median_score": 98,
+      "claude_tests": 253,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 12,
+      "domain": "api.xiaoxuapi.com",
+      "claude_median_score": 99,
+      "claude_tests": 157,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 13,
+      "domain": "mintpop.ai",
+      "claude_median_score": 99,
+      "claude_tests": 52,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 14,
+      "domain": "hapiopen.cc",
+      "claude_median_score": 99,
+      "claude_tests": 412,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 15,
+      "domain": "omniakey.com",
+      "claude_median_score": 97,
+      "claude_tests": 52,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 16,
+      "domain": "91token.com",
+      "claude_median_score": 93,
+      "claude_tests": 46,
+      "last_test": "2026-09-10"
+    },
+    {
+      "rank": 17,
+      "domain": "bestapi.store",
+      "claude_median_score": 99,
+      "claude_tests": 21,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 18,
+      "domain": "x-llm.net",
+      "claude_median_score": 96,
+      "claude_tests": 593,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 19,
+      "domain": "relaybases.com",
+      "claude_median_score": 95,
+      "claude_tests": 26,
+      "last_test": "2026-09-10"
+    },
+    {
+      "rank": 20,
+      "domain": "anpin.ai",
+      "claude_median_score": 91,
+      "claude_tests": 30,
+      "last_test": "2026-09-04"
+    }
+  ],
+  "openai_top20": [
+    {
+      "rank": 1,
+      "domain": "api.koozhan.com",
+      "openai_median_score": 99,
+      "openai_tests": 121,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 2,
+      "domain": "wawapi.top",
+      "openai_median_score": 100,
+      "openai_tests": 822,
+      "last_test": "2026-09-09"
+    },
+    {
+      "rank": 3,
+      "domain": "dragtokens.com",
+      "openai_median_score": 99,
+      "openai_tests": 1451,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 4,
+      "domain": "api-top.com",
+      "openai_median_score": 99,
+      "openai_tests": 1262,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 5,
+      "domain": "routemux.com",
+      "openai_median_score": 99,
+      "openai_tests": 389,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 6,
+      "domain": "topapi.io",
+      "openai_median_score": 99,
+      "openai_tests": 378,
+      "last_test": "2026-09-08"
+    },
+    {
+      "rank": 7,
+      "domain": "kuaiapi.net",
+      "openai_median_score": 99,
+      "openai_tests": 641,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 8,
+      "domain": "www.weekly-day.top",
+      "openai_median_score": 99,
+      "openai_tests": 326,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 9,
+      "domain": "omniakey.com",
+      "openai_median_score": 99,
+      "openai_tests": 1321,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 10,
+      "domain": "code28.ccwu.cc",
+      "openai_median_score": 99,
+      "openai_tests": 1376,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 11,
+      "domain": "hapiopen.cc",
+      "openai_median_score": 99,
+      "openai_tests": 480,
+      "last_test": "2026-09-11"
+    },
+    {
+      "rank": 12,
+      "domain": "api.999555999.com",
+      "openai_median_score": 99,
+      "openai_tests": 194,
+      "last_test": "2026-09-10"
+    },
+    {
+      "rank": 13,
+      "domain": "codex666ai.com",
+      "openai_median_score": 96,
+      "openai_tests": 3925,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 14,
+      "domain": "passion8.cc",
+      "openai_median_score": 99,
+      "openai_tests": 1139,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 15,
+      "domain": "wawazz.xyz",
+      "openai_median_score": 99,
+      "openai_tests": 530,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 16,
+      "domain": "quotarouter.ai",
+      "openai_median_score": 99,
+      "openai_tests": 11,
+      "last_test": "2026-09-03"
+    },
+    {
+      "rank": 17,
+      "domain": "bestapi.store",
+      "openai_median_score": 99,
+      "openai_tests": 29,
+      "last_test": "2026-09-12"
+    },
+    {
+      "rank": 18,
+      "domain": "ai.akile.ai",
+      "openai_median_score": 99,
+      "openai_tests": 27,
+      "last_test": "2026-09-09"
+    },
+    {
+      "rank": 19,
+      "domain": "juxingai888.com",
+      "openai_median_score": 99,
+      "openai_tests": 13,
+      "last_test": "2026-08-19"
+    },
+    {
+      "rank": 20,
+      "domain": "api.tangguo.xin",
+      "openai_median_score": 97,
+      "openai_tests": 12,
+      "last_test": "2026-08-29"
+    }
+  ],
+  "key_findings": [
+    "Veridrop 覆盖 8819 家中转站，75358 份公开检测报告",
+    "使用贝叶斯加权评分算法，不按广告排序",
+    "支持 Claude、OpenAI、Gemini 三大协议分榜",
+    "认证收录的中转站需要付费，但排名仍按检测算法计算",
+    "中位分、样本数、严重问题占比、协议级风险都会影响排名",
+    "Claude 分榜只看 Claude 协议表现，多协议中转站不会被其他协议短板拖累",
+    "OpenAI 分榜只看 OpenAI 协议表现，多协议中转站不会被其他协议短板拖累"
+  ],
+  "ranking_rules": [
+    "排序不是中位分：页面显示中位分方便阅读，实际排序使用贝叶斯加权排名分",
+    "样本数会校正排名：单次满分不会直接霸榜，样本越多、表现越稳定越靠前",
+    "严重问题会扣排名：报告中出现结构伪装、字段穿帮等严重问题时，按占比降低排名和判定",
+    "无效检测不计入：余额不足、模型不可用、429/502/503、CLI-only 403 等临时或访问限制问题会被排除",
+    "协议风险按协议处理：Claude thinking signature 等协议级硬风险只影响对应分榜和场景建议"
+  ]
+}
